@@ -8,14 +8,13 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       min-height: 100vh;
-      background: #0d001a; /* Fundo puro - sem caixa, sem gradiente cobrindo bolinhas */
+      background: #0d001a;
       font-family: Arial, Helvetica, sans-serif;
       color: white;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* Bolinhas fixas (35) - sempre nas mesmas posições */
     .background-dots {
       position: fixed;
       inset: 0;
@@ -66,7 +65,6 @@
     .dot:nth-child(34) { width:10px; height:10px; left:78%;  top:35%; }
     .dot:nth-child(35) { width:8px;  height:8px;  left:25%;  top:95%; }
 
-    /* Painel sem fundo cobrindo bolinhas */
     .panel {
       position: fixed;
       inset: 0;
@@ -77,7 +75,7 @@
       background: transparent;
       transition: opacity 0.8s ease-out;
     }
-    .panel.hidden { opacity: 0; pointer-events: none; }
+    .panel.hidden { opacity:0; pointer-events:none; }
 
     .panel-content {
       background: linear-gradient(135deg, #1a0033, #2a004d);
@@ -93,7 +91,6 @@
       z-index: 11;
     }
 
-    /* Logo redonda EM CIMA do título */
     .logo-container {
       margin-bottom: 20px;
     }
@@ -248,7 +245,6 @@
       box-shadow: 0 15px 40px rgba(0,255,157,0.7);
     }
 
-    /* Modal de edição */
     #edit-modal {
       position: fixed;
       inset: 0;
@@ -314,21 +310,14 @@
     .save-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(199,21,133,0.6); }
     .close-btn { background: #555; color: white; }
     .close-btn:hover { background: #777; }
-
-    @media (max-width: 600px) {
-      .panel-content { padding: 24px 16px; border-radius: 0; }
-      .add-new-btn { bottom: 16px; right: 16px; width: 64px; height: 64px; font-size: 2.5rem; }
-      .login-form { flex-direction: row; flex-wrap: nowrap; gap: 12px; }
-      .input-box { flex: 1; }
-      button.main-btn { flex: 0 0 auto; padding: 16px 40px; }
-      #login-message { text-align: center; margin-top: 16px; }
-      .logo { width: 120px; height: 120px; }
-    }
   </style>
+
+  <!-- Firebase SDK compat (essencial para funcionar sem module) -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 </head>
 <body>
 
-  <!-- 35 bolinhas no fundo puro -->
   <div class="background-dots">
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -343,13 +332,10 @@
 
   <div class="panel" id="login-panel">
     <div class="panel-content">
-      <!-- Logo redonda EM CIMA do título -->
       <div class="logo-container">
         <img src="https://i.imgur.com/JbE26Ja.png" alt="Tiger Hub Logo" class="logo">
       </div>
-
       <h1>Tiger Hub key ( Adms )</h1>
-
       <div class="login-form">
         <input type="text" class="input-box" placeholder="... Bote a key Apenas ADMS aqui ..." id="keyInput">
         <button class="main-btn" onclick="checkKey()">ENTRAR</button>
@@ -362,12 +348,10 @@
     <div class="panel-content">
       <h1>Códigos Tiger Hub</h1>
       <div id="codes-list"></div>
-
       <button class="add-new-btn" onclick="addNewBox()">+</button>
     </div>
   </div>
 
-  <!-- Modal de edição -->
   <div id="edit-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -384,23 +368,36 @@
   </div>
 
   <script>
+    // === SUAS CREDENCIAIS DO FIREBASE (cole aqui o que você pegou do Firebase) ===
+    const firebaseConfig = {
+      apiKey: "AIzaSyCteX-sc622iC5WKYcmkyXRShHTH7zaKXM",
+      authDomain: "tigerhubkey.firebaseapp.com",
+      databaseURL: "https://tigerhubkey-default-rtdb.firebaseio.com",
+      projectId: "tigerhubkey",
+      storageBucket: "tigerhubkey.appspot.com",
+      messagingSenderId: "470547454908",
+      appId: "1:470547454908:web:a4ba38e08c982fbc84a9b9"
+    };
+
+    // Inicializa Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
     const correctKey = "ADMSGGSapenasTIGERX";
     let currentEditIndex = -1;
-
-    let boxes = JSON.parse(localStorage.getItem('tigerHubBoxes')) || [];
-
-    if (boxes.length === 0) {
-      for (let i = 1; i <= 4; i++) {
-        boxes.push({ name: `Caixa ${i}`, code: "" });
-      }
-      localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
-    }
+    let boxes = [];
 
     const codesList = document.getElementById("codes-list");
     const editModal = document.getElementById("edit-modal");
     const editName = document.getElementById("edit-name");
     const editCode = document.getElementById("edit-code");
     const modalTitle = document.getElementById("modal-title");
+
+    // Carrega dados do Firebase em tempo real
+    db.ref('boxes').on('value', (snapshot) => {
+      boxes = snapshot.val() || [];
+      renderBoxes();
+    });
 
     function limitPreview(code) {
       if (!code) return '// Nenhum código salvo ainda...';
@@ -425,11 +422,11 @@
           <div class="code-header">
             <div class="code-title">
               <span class="code-label">CAIXA</span>
-              <span class="code-name">${box.name}</span>
+              <span class="code-name">${box.name || 'Sem Nome'}</span>
             </div>
             <button class="rename-btn" onclick="openEditModal(${index})">+</button>
           </div>
-          <pre class="code-preview"><code>${limitPreview(box.code)}</code></pre>
+          <pre class="code-preview"><code>${limitPreview(box.code || '')}</code></pre>
         `;
         codesList.appendChild(item);
       });
@@ -438,13 +435,12 @@
     function addNewBox() {
       const nextNumber = boxes.length + 1;
       boxes.push({ name: `Caixa ${nextNumber}`, code: "" });
-      localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
-      renderBoxes();
+      db.ref('boxes').set(boxes);
     }
 
     function openEditModal(index) {
       currentEditIndex = index;
-      const box = boxes[index];
+      const box = boxes[index] || { name: '', code: '' };
       modalTitle.textContent = `Editar: ${box.name}`;
       editName.value = box.name;
       editCode.value = box.code || "";
@@ -455,8 +451,7 @@
       if (currentEditIndex !== -1) {
         boxes[currentEditIndex].name = editName.value.trim() || `Caixa ${currentEditIndex + 1}`;
         boxes[currentEditIndex].code = editCode.value;
-        localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
-        renderBoxes();
+        db.ref('boxes').set(boxes);
       }
       closeEditModal();
     }
@@ -477,7 +472,6 @@
         document.getElementById("login-panel").classList.add("hidden");
         setTimeout(() => {
           document.getElementById("main-panel").classList.remove("hidden");
-          renderBoxes();
         }, 800);
       } else {
         msg.className = "error";
