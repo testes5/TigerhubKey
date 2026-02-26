@@ -20,7 +20,7 @@
       position: relative;
     }
 
-    /* MUITAS bolinhas roxas fixas – agora 25! */
+    /* Bolinhas fixas (25) */
     .background-dots {
       position: fixed;
       inset: 0;
@@ -36,7 +36,6 @@
       opacity: 0.7;
     }
 
-    /* Posições fixas e variadas */
     .dot:nth-child(1)  { width: 8px;  height: 8px;  left: 5%;   top: 10%; }
     .dot:nth-child(2)  { width: 12px; height: 12px; left: 18%;  top: 25%; }
     .dot:nth-child(3)  { width: 6px;  height: 6px;  left: 32%;  top: 15%; }
@@ -63,7 +62,7 @@
     .dot:nth-child(24) { width: 5px;  height: 5px;  left: 85%;  top: 50%; }
     .dot:nth-child(25) { width: 12px; height: 12px; left: 42%;  top: 95%; }
 
-    /* Painel com animação de subida */
+    /* Painel com animação de entrada (subida + fade) */
     .panel {
       position: fixed;
       inset: 0;
@@ -71,14 +70,14 @@
       align-items: center;
       justify-content: center;
       z-index: 10;
-      background: rgba(0,0,0,0.35);
-      backdrop-filter: blur(5px);
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(6px);
       opacity: 0;
-      transform: translateY(140px);
-      animation: slideUp 1.2s ease-out 0.1s forwards;
+      transform: translateY(200px); /* Começa mais abaixo */
+      animation: panelEntrance 1.4s ease-out forwards;
     }
 
-    @keyframes slideUp {
+    @keyframes panelEntrance {
       to {
         opacity: 1;
         transform: translateY(0);
@@ -89,71 +88,89 @@
       background: linear-gradient(135deg, #1a0033, #2a004d);
       border: 2px solid #a020f0;
       border-radius: 18px;
-      padding: 45px 55px;
-      width: 420px;
+      padding: 50px 60px;
+      width: 440px;
       max-width: 92%;
       text-align: center;
-      box-shadow: 0 0 45px rgba(160,32,240,0.55);
+      box-shadow: 0 0 50px rgba(160,32,240,0.6);
+      opacity: 0;
+      transform: scale(0.92);
+      animation: contentPop 0.8s ease-out 0.6s forwards; /* Aparece um pouco depois */
+    }
+
+    @keyframes contentPop {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     h1 {
-      font-size: 2.3rem;
-      margin-bottom: 32px;
+      font-size: 2.4rem;
+      margin-bottom: 35px;
       color: #d8bfd8;
-      text-shadow: 0 0 15px #c71585;
+      text-shadow: 0 0 18px #c71585;
     }
 
     .input-box {
       background: #0f001a;
       border: 1.5px solid #9932cc;
       border-radius: 12px;
-      padding: 18px 22px;
-      margin: 0 auto 28px;
+      padding: 20px 24px;
+      margin: 0 auto 30px;
       width: 100%;
-      max-width: 320px;
-      font-size: 1.25rem;
+      max-width: 340px;
+      font-size: 1.3rem;
       color: #e0e0ff;
       text-align: center;
     }
 
     .input-box::placeholder {
       color: #9966cc;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
     }
 
     button {
       background: linear-gradient(90deg, #8a2be2, #c71585);
       border: none;
       color: white;
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       font-weight: bold;
-      padding: 16px 70px;
+      padding: 16px 80px;
       border-radius: 50px;
       cursor: pointer;
       transition: all 0.3s;
-      box-shadow: 0 6px 18px rgba(199,21,133,0.45);
+      box-shadow: 0 6px 20px rgba(199,21,133,0.5);
     }
 
     button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(199,21,133,0.65);
+      transform: translateY(-4px);
+      box-shadow: 0 14px 35px rgba(199,21,133,0.7);
     }
 
+    /* Mensagem com animação */
     #message {
-      margin-top: 24px;
-      font-size: 1.15rem;
+      margin-top: 28px;
+      font-size: 1.2rem;
       font-weight: bold;
-      min-height: 28px;
+      min-height: 32px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
     }
 
-    .success { color: #00ff88; text-shadow: 0 0 10px #00ff88; }
-    .error   { color: #ff4d4d; text-shadow: 0 0 10px #ff4d4d; }
+    #message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .success { color: #00ff9d; text-shadow: 0 0 12px #00ff9d; }
+    .error   { color: #ff4d4d; text-shadow: 0 0 12px #ff4d4d; }
   </style>
 </head>
 <body>
 
   <div class="background-dots">
-    <!-- 25 bolinhas -->
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -186,21 +203,27 @@
       const messageEl = document.getElementById("message");
       const correctKey = "ADMSGGSapenasTIGERX";
 
+      // Resetar mensagem
       messageEl.className = "";
       messageEl.textContent = "";
+      messageEl.classList.remove("show");
 
-      if (input === correctKey) {
-        messageEl.className = "success";
-        messageEl.textContent = "KEY correta Indo Ao painel...";
-        
-        setTimeout(() => {
-          // window.location.href = "URL_DO_PAINEL_AQUI";
-          alert("Acesso liberado! (troque pelo redirecionamento real)");
-        }, 1800);
-      } else {
-        messageEl.className = "error";
-        messageEl.textContent = "Key INVALIDA!";
-      }
+      setTimeout(() => { // pequeno delay pra animação resetar
+        if (input === correctKey) {
+          messageEl.className = "success";
+          messageEl.textContent = "KEY correta Indo Ao painel...";
+          messageEl.classList.add("show");
+
+          setTimeout(() => {
+            // window.location.href = "URL_DO_PAINEL_AQUI";
+            alert("Acesso liberado! (substitua pelo redirecionamento real)");
+          }, 2200);
+        } else {
+          messageEl.className = "error";
+          messageEl.textContent = "Key INVALIDA!";
+          messageEl.classList.add("show");
+        }
+      }, 100);
     }
   </script>
 
