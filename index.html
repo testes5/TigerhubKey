@@ -160,7 +160,6 @@
       display: block;
     }
 
-    /* Botão + grande para adicionar nova caixa */
     .add-new-btn {
       background: linear-gradient(90deg, #00ff9d, #00cc88);
       border: none;
@@ -183,7 +182,6 @@
       box-shadow: 0 15px 40px rgba(0,255,157,0.7);
     }
 
-    /* Modal ENORME */
     #edit-modal {
       position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(10px);
       display:flex; align-items:center; justify-content:center; z-index:20;
@@ -254,7 +252,7 @@
       <h1>Códigos Tiger Hub</h1>
       <div id="codes-list"></div>
 
-      <!-- Botão + para adicionar nova caixa -->
+      <!-- Botão + grande para adicionar nova caixa -->
       <button class="add-new-btn" onclick="addNewBox()">+</button>
     </div>
   </div>
@@ -278,11 +276,15 @@
     const correctKey = "ADMSGGSapenasTIGERX";
     let currentEditIndex = -1;
 
-    let boxes = JSON.parse(localStorage.getItem('tigerHubBoxes')) || [
-      { name: "Sem Nome", code: "" },
-      { name: "Sem Nome", code: "" },
-      { name: "Sem Nome", code: "" }
-    ];
+    let boxes = JSON.parse(localStorage.getItem('tigerHubBoxes')) || [];
+
+    // Se não tiver nenhuma caixa ainda, cria as iniciais (opcional)
+    if (boxes.length === 0) {
+      for (let i = 1; i <= 4; i++) {
+        boxes.push({ name: `Caixa ${i}`, code: "" });
+      }
+      localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
+    }
 
     const codesList = document.getElementById("codes-list");
     const editModal = document.getElementById("edit-modal");
@@ -333,7 +335,8 @@
     }
 
     function addNewBox() {
-      boxes.push({ name: "Nova Caixa", code: "" });
+      const nextNumber = boxes.length + 1;
+      boxes.push({ name: `Caixa ${nextNumber}`, code: "" });
       localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
       renderBoxes();
     }
@@ -349,7 +352,7 @@
 
     function saveCode() {
       if (currentEditIndex !== -1) {
-        boxes[currentEditIndex].name = editName.value.trim() || "Sem Nome";
+        boxes[currentEditIndex].name = editName.value.trim() || `Caixa ${currentEditIndex + 1}`;
         boxes[currentEditIndex].code = editCode.value;
         localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
         renderBoxes();
