@@ -28,8 +28,6 @@
       box-shadow: 0 0 12px #c7158580;
       opacity: 0.7;
     }
-    /* posições das 25 bolinhas mantidas iguais */
-
     .dot:nth-child(1)  { width:8px; height:8px; left:5%; top:10%; }
     .dot:nth-child(2)  { width:12px; height:12px; left:18%; top:25%; }
     .dot:nth-child(3)  { width:6px; height:6px; left:32%; top:15%; }
@@ -86,10 +84,11 @@
 
     .login-form {
       display: flex;
-      flex-direction: column;
-      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
       width: 100%;
-      max-width: 420px;
+      max-width: 500px;
       margin: 0 auto;
     }
 
@@ -101,20 +100,28 @@
       font-size: clamp(1.1rem, 4vw, 1.3rem);
       color:#e0e0ff;
       text-align:center;
-      width: 100%;
+      flex: 1 1 280px;
+      min-width: 0;
     }
     .input-box::placeholder { color:#9966cc; font-size: clamp(0.95rem, 3.5vw, 1.15rem); }
 
     button.main-btn {
       background:linear-gradient(90deg, #8a2be2, #c71585);
       border:none; color:white; font-size: clamp(1.1rem, 4vw, 1.3rem); font-weight:bold;
-      padding:14px 60px; border-radius:50px; cursor:pointer;
+      padding:16px 50px; border-radius:50px; cursor:pointer;
       transition:all 0.3s; box-shadow:0 6px 20px rgba(199,21,133,0.5);
-      align-self: flex-end;
+      white-space: nowrap;
+      flex: 0 0 auto;
     }
     button.main-btn:hover { transform:translateY(-4px); box-shadow:0 14px 35px rgba(199,21,133,0.7); }
 
-    #login-message { font-size: clamp(1rem, 3.5vw, 1.2rem); font-weight:bold; min-height:28px; align-self: flex-end; }
+    #login-message {
+      font-size: clamp(1rem, 3.5vw, 1.2rem);
+      font-weight:bold;
+      min-height:28px;
+      width: 100%;
+      text-align: right;
+    }
 
     .success { color:#00ff9d; text-shadow:0 0 12px #00ff9d; }
     .error   { color:#ff4d4d; text-shadow:0 0 12px #ff4d4d; }
@@ -214,62 +221,12 @@
       box-shadow: 0 15px 40px rgba(0,255,157,0.7);
     }
 
-    /* Modal responsivo */
-    #edit-modal {
-      position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px);
-      display:flex; align-items:center; justify-content:center; z-index:20;
-      opacity:0; pointer-events:none; transition:opacity 0.4s ease;
-    }
-    #edit-modal.show { opacity:1; pointer-events:all; }
-
-    .modal-content {
-      background:linear-gradient(135deg, #1c0038, #320066);
-      border:3px solid #c71585;
-      border-radius:16px;
-      padding: clamp(20px, 5vw, 40px);
-      width: 94%;
-      max-width: 1100px;
-      height: 90vh;
-      max-height: 96vh;
-      overflow-y: auto;
-      box-shadow:0 0 60px rgba(199,21,133,0.8);
-      transform:scale(0.85);
-      transition:transform 0.4s ease-out;
-    }
-    #edit-modal.show .modal-content { transform:scale(1); }
-
-    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-    .modal-header h2 { font-size: clamp(1.8rem, 5vw, 2.4rem); }
-
-    .name-input, textarea.code-editor {
-      background:#0f001a; border:2px solid #a020f0; border-radius:12px;
-      padding:14px 18px; margin-bottom:20px; width:100%; font-size: clamp(1.1rem, 3.8vw, 1.35rem);
-      color:#e0e0ff; font-family: inherit;
-    }
-    textarea.code-editor {
-      height: clamp(300px, 55vh, 55vh);
-      font-family: 'Courier New', monospace;
-      color: #d0ffd0;
-      resize: vertical;
-    }
-
-    .modal-buttons { display:flex; flex-wrap: wrap; gap:20px; justify-content:center; }
-    .save-btn, .close-btn {
-      padding:14px 60px; font-size: clamp(1.1rem, 4vw, 1.4rem); border:none; border-radius:50px;
-      cursor:pointer; transition:all 0.3s;
-      flex: 1 1 160px;
-      max-width: 220px;
-    }
-    .save-btn { background:linear-gradient(90deg, #8a2be2, #c71585); color:white; }
-    .save-btn:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(199,21,133,0.6); }
-    .close-btn { background:#555; color:white; }
-    .close-btn:hover { background:#777; }
-
     @media (max-width: 600px) {
       .panel-content { padding: 24px 16px; border-radius: 0; }
       .add-new-btn { bottom: 16px; right: 16px; width: 64px; height: 64px; font-size: 2.5rem; }
-      .login-form { max-width: 100%; padding: 0 10px; }
-      .main-btn { padding: 14px 50px; width: 100%; align-self: center; }
+      .login-form { flex-direction: column; gap: 16px; }
+      button.main-btn { width: 100%; align-self: center; }
+      #login-message { text-align: center; }
     }
   </style>
 </head>
@@ -291,8 +248,8 @@
       <div class="login-form">
         <input type="text" class="input-box" placeholder="... Bote a key Apenas ADMS aqui ..." id="keyInput">
         <button class="main-btn" onclick="checkKey()">ENTRAR</button>
-        <div id="login-message"></div>
       </div>
+      <div id="login-message"></div>
     </div>
   </div>
 
