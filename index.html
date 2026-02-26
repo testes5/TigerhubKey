@@ -8,14 +8,14 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       min-height: 100vh;
-      background: #0d001a; /* Fundo roxo escuro puro */
+      background: #0d001a;
       font-family: Arial, Helvetica, sans-serif;
       color: white;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* Bolinhas roxas fixas no fundo (35) */
+    /* Bolinhas fixas no fundo (35) */
     .background-dots {
       position: fixed;
       inset: 0;
@@ -30,7 +30,7 @@
       opacity: 0.7;
     }
 
-    /* Posições fixas das 35 bolinhas */
+    /* Posições das 35 bolinhas (fixas sempre) */
     .dot:nth-child(1)  { width:8px;  height:8px;  left:4%;   top:8%;  }
     .dot:nth-child(2)  { width:12px; height:12px; left:15%;  top:22%; }
     .dot:nth-child(3)  { width:6px;  height:6px;  left:28%;  top:12%; }
@@ -74,7 +74,7 @@
       align-items: center;
       justify-content: center;
       z-index: 10;
-      background: transparent; /* Fundo transparente para ver as bolinhas */
+      background: transparent;
       transition: all 0.8s ease-out;
     }
     .panel.hidden { opacity:0; pointer-events:none; transform:translateY(300px); }
@@ -168,24 +168,6 @@
     .code-label { color: #d8bfd8; }
     .code-name { color: #c71585; margin-left: 8px; }
 
-    .rename-btn {
-      background: #8a2be2;
-      border: none;
-      color: white;
-      font-size: clamp(1.8rem, 6vw, 2.1rem);
-      width: clamp(50px, 14vw, 58px);
-      height: clamp(50px, 14vw, 58px);
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-      flex-shrink: 0;
-      box-shadow: 0 4px 15px rgba(138,43,226,0.5);
-    }
-    .rename-btn:hover { background: #c71585; transform: scale(1.15); }
-
     .code-preview {
       background: #0a0015;
       border: 1px solid #552266;
@@ -210,34 +192,8 @@
       font-size: 0.95rem;
     }
 
-    .add-new-btn {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: linear-gradient(90deg, #00ff9d, #00cc88);
-      border: none;
-      color: #0d001a;
-      font-size: 2.8rem;
-      font-weight: bold;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 25px rgba(0,255,157,0.5);
-      transition: all 0.3s;
-      z-index: 15;
-    }
-    .add-new-btn:hover {
-      transform: scale(1.15);
-      box-shadow: 0 15px 40px rgba(0,255,157,0.7);
-    }
-
     @media (max-width: 600px) {
       .panel-content { padding: 24px 16px; border-radius: 0; }
-      .add-new-btn { bottom: 16px; right: 16px; width: 64px; height: 64px; font-size: 2.5rem; }
       .login-form { flex-direction: row; flex-wrap: nowrap; gap: 12px; }
       .input-box { flex: 1; }
       button.main-btn { flex: 0 0 auto; padding: 16px 40px; }
@@ -247,7 +203,7 @@
 </head>
 <body>
 
-  <!-- 35 bolinhas no fundo -->
+  <!-- 35 bolinhas fixas no fundo -->
   <div class="background-dots">
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -275,29 +231,11 @@
     <div class="panel-content">
       <h1>Códigos Tiger Hub</h1>
       <div id="codes-list"></div>
-
-      <button class="add-new-btn" onclick="addNewBox()">+</button>
-    </div>
-  </div>
-
-  <div id="edit-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="modal-title">Editar Código</h2>
-        <button class="close-btn" onclick="closeEditModal()">X</button>
-      </div>
-      <input type="text" class="name-input" id="edit-name" placeholder="Nome da caixa">
-      <textarea class="code-editor" id="edit-code" placeholder="Cole ou escreva seu código aqui..."></textarea>
-      <div class="modal-buttons">
-        <button class="save-btn" onclick="saveCode()">SALVAR</button>
-        <button class="close-btn" onclick="closeEditModal()">CANCELAR</button>
-      </div>
     </div>
   </div>
 
   <script>
     const correctKey = "ADMSGGSapenasTIGERX";
-    let currentEditIndex = -1;
 
     let boxes = JSON.parse(localStorage.getItem('tigerHubBoxes')) || [];
 
@@ -309,10 +247,6 @@
     }
 
     const codesList = document.getElementById("codes-list");
-    const editModal = document.getElementById("edit-modal");
-    const editName = document.getElementById("edit-name");
-    const editCode = document.getElementById("edit-code");
-    const modalTitle = document.getElementById("modal-title");
 
     function limitPreview(code) {
       if (!code) return '// Nenhum código salvo ainda...';
@@ -330,7 +264,7 @@
 
     function renderBoxes() {
       codesList.innerHTML = "";
-      boxes.forEach((box, index) => {
+      boxes.forEach((box) => {
         const item = document.createElement("div");
         item.className = "code-item";
         item.innerHTML = `
@@ -339,43 +273,11 @@
               <span class="code-label">CAIXA</span>
               <span class="code-name">${box.name}</span>
             </div>
-            <button class="rename-btn" onclick="openEditModal(${index})">+</button>
           </div>
           <pre class="code-preview"><code>${limitPreview(box.code)}</code></pre>
         `;
         codesList.appendChild(item);
       });
-    }
-
-    function addNewBox() {
-      const nextNumber = boxes.length + 1;
-      boxes.push({ name: `Caixa ${nextNumber}`, code: "" });
-      localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
-      renderBoxes();
-    }
-
-    function openEditModal(index) {
-      currentEditIndex = index;
-      const box = boxes[index];
-      modalTitle.textContent = `Editar: ${box.name}`;
-      editName.value = box.name;
-      editCode.value = box.code || "";
-      editModal.classList.add("show");
-    }
-
-    function saveCode() {
-      if (currentEditIndex !== -1) {
-        boxes[currentEditIndex].name = editName.value.trim() || `Caixa ${currentEditIndex + 1}`;
-        boxes[currentEditIndex].code = editCode.value;
-        localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
-        renderBoxes();
-      }
-      closeEditModal();
-    }
-
-    function closeEditModal() {
-      editModal.classList.remove("show");
-      currentEditIndex = -1;
     }
 
     function checkKey() {
@@ -396,10 +298,6 @@
         msg.textContent = "Key INVALIDA!";
       }
     }
-
-    editModal.addEventListener("click", e => {
-      if (e.target === editModal) closeEditModal();
-    });
   </script>
 </body>
 </html>
