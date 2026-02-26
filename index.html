@@ -1,1 +1,353 @@
-t
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tiger Hub - Adms</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      height: 100vh;
+      background: #0d001a;
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .background-dots { position:fixed; inset:0; pointer-events:none; z-index:1; }
+    .dot { position:absolute; background:#a020f0; border-radius:50%; box-shadow:0 0 12px #c7158580; opacity:0.7; }
+    .dot:nth-child(1)  { width:8px; height:8px; left:5%; top:10%; }
+    .dot:nth-child(2)  { width:12px; height:12px; left:18%; top:25%; }
+    .dot:nth-child(3)  { width:6px; height:6px; left:32%; top:15%; }
+    .dot:nth-child(4)  { width:10px; height:10px; left:45%; top:40%; }
+    .dot:nth-child(5)  { width:9px; height:9px; left:60%; top:8%; }
+    .dot:nth-child(6)  { width:7px; height:7px; left:72%; top:55%; }
+    .dot:nth-child(7)  { width:11px; height:11px; left:88%; top:30%; }
+    .dot:nth-child(8)  { width:13px; height:13px; left:10%; top:70%; }
+    .dot:nth-child(9)  { width:8px; height:8px; left:25%; top:85%; }
+    .dot:nth-child(10) { width:10px; height:10px; left:40%; top:65%; }
+    .dot:nth-child(11) { width:5px; height:5px; left:55%; top:20%; }
+    .dot:nth-child(12) { width:14px; height:14px; left:78%; top:78%; }
+    .dot:nth-child(13) { width:9px; height:9px; left:90%; top:45%; }
+    .dot:nth-child(14) { width:7px; height:7px; left:15%; top:50%; }
+    .dot:nth-child(15) { width:11px; height:11px; left:35%; top:92%; }
+    .dot:nth-child(16) { width:6px; height:6px; left:50%; top:5%; }
+    .dot:nth-child(17) { width:12px; height:12px; left:65%; top:75%; }
+    .dot:nth-child(18) { width:8px; height:8px; left:82%; top:12%; }
+    .dot:nth-child(19) { width:10px; height:10px; left:3%; top:88%; }
+    .dot:nth-child(20) { width:9px; height:9px; left:20%; top:35%; }
+    .dot:nth-child(21) { width:13px; height:13px; left:95%; top:60%; }
+    .dot:nth-child(22) { width:7px; height:7px; left:28%; top:78%; }
+    .dot:nth-child(23) { width:11px; height:11px; left:70%; top:18%; }
+    .dot:nth-child(24) { width:5px; height:5px; left:85%; top:50%; }
+    .dot:nth-child(25) { width:12px; height:12px; left:42%; top:95%; }
+
+    .panel {
+      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+      z-index:10; background:rgba(0,0,0,0.4); backdrop-filter:blur(6px);
+      transition:all 0.8s ease-out;
+    }
+    .panel.hidden { opacity:0; pointer-events:none; transform:translateY(300px); }
+
+    .panel-content {
+      background:linear-gradient(135deg, #1a0033, #2a004d);
+      border:2px solid #a020f0; border-radius:18px;
+      padding:40px 50px; width:720px; max-width:96%; text-align:center;
+      box-shadow:0 0 50px rgba(160,32,240,0.6);
+      overflow-y: auto;
+      max-height: 88vh;
+    }
+
+    h1 { font-size:2.6rem; margin-bottom:35px; color:#d8bfd8; text-shadow:0 0 18px #c71585; }
+
+    .input-box {
+      background:#0f001a; border:1.5px solid #9932cc; border-radius:12px;
+      padding:20px 24px; margin:0 auto 30px; width:100%; max-width:340px;
+      font-size:1.3rem; color:#e0e0ff; text-align:center;
+    }
+    .input-box::placeholder { color:#9966cc; font-size:1.15rem; }
+
+    button {
+      background:linear-gradient(90deg, #8a2be2, #c71585);
+      border:none; color:white; font-size:1.3rem; font-weight:bold;
+      padding:16px 80px; border-radius:50px; cursor:pointer;
+      transition:all 0.3s; box-shadow:0 6px 20px rgba(199,21,133,0.5);
+    }
+    button:hover { transform:translateY(-4px); box-shadow:0 14px 35px rgba(199,21,133,0.7); }
+
+    #login-message { margin-top:28px; font-size:1.2rem; font-weight:bold; min-height:32px; }
+    .success { color:#00ff9d; text-shadow:0 0 12px #00ff9d; }
+    .error { color:#ff4d4d; text-shadow:0 0 12px #ff4d4d; }
+
+    .code-item {
+      background:rgba(30,0,60,0.8);
+      border:2px solid #9932cc;
+      border-radius:18px;
+      padding:24px 28px;
+      margin:24px 0;
+      transition:all 0.3s;
+      text-align: left;
+    }
+    .code-item:hover {
+      background:rgba(50,0,90,0.95);
+      transform: translateY(-5px);
+      box-shadow:0 15px 40px rgba(160,32,240,0.45);
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-size: 1.7rem;
+      font-weight: 600;
+    }
+
+    .code-title {
+      flex: 1;
+      word-break: break-word;
+    }
+
+    .code-label { color: #d8bfd8; }
+    .code-name { color: #c71585; margin-left: 10px; }
+
+    .rename-btn {
+      background: #8a2be2;
+      border: none;
+      color: white;
+      font-size: 2.1rem;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      flex-shrink: 0;
+      box-shadow: 0 4px 15px rgba(138,43,226,0.5);
+    }
+    .rename-btn:hover {
+      background: #c71585;
+      transform: scale(1.15);
+    }
+
+    .code-preview {
+      background: #0a0015;
+      border: 1px solid #552266;
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 1.05rem;
+      color: #d0ffd0;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 220px;
+      overflow-y: auto;
+      line-height: 1.45;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.7);
+    }
+
+    .preview-ellipsis {
+      color: #888;
+      font-style: italic;
+      margin-top: 8px;
+      display: block;
+    }
+
+    /* Modal ENORME */
+    #edit-modal {
+      position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(10px);
+      display:flex; align-items:center; justify-content:center; z-index:20;
+      opacity:0; pointer-events:none; transition:opacity 0.5s ease;
+    }
+    #edit-modal.show { opacity:1; pointer-events:all; }
+
+    .modal-content {
+      background:linear-gradient(135deg, #1c0038, #320066);
+      border:3px solid #c71585; border-radius:20px;
+      padding:40px; width:92%; max-width:1200px; height:90vh;
+      max-height:95vh; overflow-y:auto; box-shadow:0 0 70px rgba(199,21,133,0.8);
+      transform:scale(0.8); transition:transform 0.5s ease-out;
+    }
+    #edit-modal.show .modal-content { transform:scale(1); }
+
+    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; }
+    .modal-header h2 { font-size:2.4rem; }
+
+    .name-input, textarea.code-editor {
+      background:#0f001a; border:2px solid #a020f0; border-radius:12px;
+      padding:16px 22px; margin-bottom:25px; width:100%; font-size:1.35rem;
+      color:#e0e0ff; font-family: inherit;
+    }
+    textarea.code-editor {
+      height: 55vh;
+      font-family: 'Courier New', monospace;
+      color: #d0ffd0;
+      resize: vertical;
+    }
+
+    .modal-buttons { display:flex; gap:25px; justify-content:center; }
+    .save-btn, .close-btn {
+      padding:16px 90px; font-size:1.4rem; border:none; border-radius:50px;
+      cursor:pointer; transition:all 0.3s;
+    }
+    .save-btn { background:linear-gradient(90deg, #8a2be2, #c71585); color:white; }
+    .save-btn:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(199,21,133,0.6); }
+    .close-btn { background:#555; color:white; }
+    .close-btn:hover { background:#777; }
+  </style>
+</head>
+<body>
+
+  <div class="background-dots">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <div class="panel" id="login-panel">
+    <div class="panel-content">
+      <h1>Tiger Hub key ( Adms )</h1>
+      <input type="text" class="input-box" placeholder="... Bote a key Apenas ADMS aqui ..." id="keyInput">
+      <button onclick="checkKey()">ENTRAR</button>
+      <div id="login-message"></div>
+    </div>
+  </div>
+
+  <div class="panel hidden" id="main-panel">
+    <div class="panel-content">
+      <h1>Códigos Tiger Hub</h1>
+      <div id="codes-list"></div>
+    </div>
+  </div>
+
+  <div id="edit-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Editar Código</h2>
+        <button class="close-btn" onclick="closeEditModal()">X</button>
+      </div>
+      <input type="text" class="name-input" id="edit-name" placeholder="Nome da caixa">
+      <textarea class="code-editor" id="edit-code" placeholder="Cole ou escreva seu código aqui..."></textarea>
+      <div class="modal-buttons">
+        <button class="save-btn" onclick="saveCode()">SALVAR</button>
+        <button class="close-btn" onclick="closeEditModal()">CANCELAR</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const correctKey = "ADMSGGSapenasTIGERX";
+    let currentEditIndex = -1;
+
+    let boxes = JSON.parse(localStorage.getItem('tigerHubBoxes')) || [
+      { name: "Sem Nome", code: "" },
+      { name: "Sem Nome", code: "" },
+      { name: "Sem Nome", code: "" },
+      { name: "Sem Nome", code: "" }
+    ];
+
+    const codesList = document.getElementById("codes-list");
+    const editModal = document.getElementById("edit-modal");
+    const editName = document.getElementById("edit-name");
+    const editCode = document.getElementById("edit-code");
+    const modalTitle = document.getElementById("modal-title");
+
+    function limitPreview(code) {
+      if (!code) return '// Nenhum código salvo ainda...';
+      
+      const lines = code.split('\n');
+      const maxLines = 10;
+      
+      if (lines.length <= maxLines) {
+        return escapeHtml(code);
+      }
+      
+      const previewLines = lines.slice(0, maxLines).join('\n');
+      return escapeHtml(previewLines) + '\n\n... (mais ' + (lines.length - maxLines) + ' linhas)';
+    }
+
+    function escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function renderBoxes() {
+      codesList.innerHTML = "";
+      boxes.forEach((box, index) => {
+        const item = document.createElement("div");
+        item.className = "code-item";
+        item.innerHTML = `
+          <div class="code-header">
+            <div class="code-title">
+              <span class="code-label">CAIXA</span>
+              <span class="code-name">${box.name}</span>
+            </div>
+            <button class="rename-btn" onclick="openEditModal(${index})">+</button>
+          </div>
+          <pre class="code-preview"><code>${limitPreview(box.code)}</code></pre>
+        `;
+        codesList.appendChild(item);
+      });
+    }
+
+    function openEditModal(index) {
+      currentEditIndex = index;
+      const box = boxes[index];
+      modalTitle.textContent = `Editar: ${box.name}`;
+      editName.value = box.name;
+      editCode.value = box.code || "";
+      editModal.classList.add("show");
+    }
+
+    function saveCode() {
+      if (currentEditIndex !== -1) {
+        boxes[currentEditIndex].name = editName.value.trim() || "Sem Nome";
+        boxes[currentEditIndex].code = editCode.value;
+        localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
+        renderBoxes();
+      }
+      closeEditModal();
+    }
+
+    function closeEditModal() {
+      editModal.classList.remove("show");
+      currentEditIndex = -1;
+    }
+
+    function checkKey() {
+      const input = document.getElementById("keyInput").value.trim();
+      const msg = document.getElementById("login-message");
+      msg.textContent = "";
+
+      if (input === correctKey) {
+        msg.className = "success";
+        msg.textContent = "KEY correta Indo Ao painel...";
+        document.getElementById("login-panel").classList.add("hidden");
+        setTimeout(() => {
+          document.getElementById("main-panel").classList.remove("hidden");
+          renderBoxes();
+        }, 800);
+      } else {
+        msg.className = "error";
+        msg.textContent = "Key INVALIDA!";
+      }
+    }
+
+    editModal.addEventListener("click", e => {
+      if (e.target === editModal) closeEditModal();
+    });
+  </script>
+
+</body>
+</html>
