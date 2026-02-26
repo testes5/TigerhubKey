@@ -5,12 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tiger Hub key (Adms)</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
       height: 100vh;
       background: #0d001a;
@@ -27,7 +22,6 @@
       pointer-events: none;
       z-index: 1;
     }
-
     .dot {
       position: absolute;
       background: #a020f0;
@@ -35,34 +29,33 @@
       box-shadow: 0 0 12px #c7158580;
       opacity: 0.7;
     }
+    .dot:nth-child(1)  { width:8px;  height:8px;  left:5%;   top:10%; }
+    .dot:nth-child(2)  { width:12px; height:12px; left:18%;  top:25%; }
+    .dot:nth-child(3)  { width:6px;  height:6px;  left:32%;  top:15%; }
+    .dot:nth-child(4)  { width:10px; height:10px; left:45%;  top:40%; }
+    .dot:nth-child(5)  { width:9px;  height:9px;  left:60%;  top:8%;  }
+    .dot:nth-child(6)  { width:7px;  height:7px;  left:72%;  top:55%; }
+    .dot:nth-child(7)  { width:11px; height:11px; left:88%;  top:30%; }
+    .dot:nth-child(8)  { width:13px; height:13px; left:10%;  top:70%; }
+    .dot:nth-child(9)  { width:8px;  height:8px;  left:25%;  top:85%; }
+    .dot:nth-child(10) { width:10px; height:10px; left:40%;  top:65%; }
+    .dot:nth-child(11) { width:5px;  height:5px;  left:55%;  top:20%; }
+    .dot:nth-child(12) { width:14px; height:14px; left:78%;  top:78%; }
+    .dot:nth-child(13) { width:9px;  height:9px;  left:90%;  top:45%; }
+    .dot:nth-child(14) { width:7px;  height:7px;  left:15%;  top:50%; }
+    .dot:nth-child(15) { width:11px; height:11px; left:35%;  top:92%; }
+    .dot:nth-child(16) { width:6px;  height:6px;  left:50%;  top:5%;  }
+    .dot:nth-child(17) { width:12px; height:12px; left:65%;  top:75%; }
+    .dot:nth-child(18) { width:8px;  height:8px;  left:82%;  top:12%; }
+    .dot:nth-child(19) { width:10px; height:10px; left:3%;   top:88%; }
+    .dot:nth-child(20) { width:9px;  height:9px;  left:20%;  top:35%; }
+    .dot:nth-child(21) { width:13px; height:13px; left:95%;  top:60%; }
+    .dot:nth-child(22) { width:7px;  height:7px;  left:28%;  top:78%; }
+    .dot:nth-child(23) { width:11px; height:11px; left:70%;  top:18%; }
+    .dot:nth-child(24) { width:5px;  height:5px;  left:85%;  top:50%; }
+    .dot:nth-child(25) { width:12px; height:12px; left:42%;  top:95%; }
 
-    .dot:nth-child(1)  { width: 8px;  height: 8px;  left: 5%;   top: 10%; }
-    .dot:nth-child(2)  { width: 12px; height: 12px; left: 18%;  top: 25%; }
-    .dot:nth-child(3)  { width: 6px;  height: 6px;  left: 32%;  top: 15%; }
-    .dot:nth-child(4)  { width: 10px; height: 10px; left: 45%;  top: 40%; }
-    .dot:nth-child(5)  { width: 9px;  height: 9px;  left: 60%;  top: 8%;  }
-    .dot:nth-child(6)  { width: 7px;  height: 7px;  left: 72%;  top: 55%; }
-    .dot:nth-child(7)  { width: 11px; height: 11px; left: 88%;  top: 30%; }
-    .dot:nth-child(8)  { width: 13px; height: 13px; left: 10%;  top: 70%; }
-    .dot:nth-child(9)  { width: 8px;  height: 8px;  left: 25%;  top: 85%; }
-    .dot:nth-child(10) { width: 10px; height: 10px; left: 40%;  top: 65%; }
-    .dot:nth-child(11) { width: 5px;  height: 5px;  left: 55%;  top: 20%; }
-    .dot:nth-child(12) { width: 14px; height: 14px; left: 78%;  top: 78%; }
-    .dot:nth-child(13) { width: 9px;  height: 9px;  left: 90%;  top: 45%; }
-    .dot:nth-child(14) { width: 7px;  height: 7px;  left: 15%;  top: 50%; }
-    .dot:nth-child(15) { width: 11px; height: 11px; left: 35%;  top: 92%; }
-    .dot:nth-child(16) { width: 6px;  height: 6px;  left: 50%;  top: 5%;  }
-    .dot:nth-child(17) { width: 12px; height: 12px; left: 65%;  top: 75%; }
-    .dot:nth-child(18) { width: 8px;  height: 8px;  left: 82%;  top: 12%; }
-    .dot:nth-child(19) { width: 10px; height: 10px; left: 3%;   top: 88%; }
-    .dot:nth-child(20) { width: 9px;  height: 9px;  left: 20%;  top: 35%; }
-    .dot:nth-child(21) { width: 13px; height: 13px; left: 95%;  top: 60%; }
-    .dot:nth-child(22) { width: 7px;  height: 7px;  left: 28%;  top: 78%; }
-    .dot:nth-child(23) { width: 11px; height: 11px; left: 70%;  top: 18%; }
-    .dot:nth-child(24) { width: 5px;  height: 5px;  left: 85%;  top: 50%; }
-    .dot:nth-child(25) { width: 12px; height: 12px; left: 42%;  top: 95%; }
-
-    /* Painel com animação de entrada (subida + fade) */
+    /* Painéis */
     .panel {
       position: fixed;
       inset: 0;
@@ -72,17 +65,10 @@
       z-index: 10;
       background: rgba(0,0,0,0.4);
       backdrop-filter: blur(6px);
-      opacity: 0;
-      transform: translateY(200px); /* Começa mais abaixo */
-      animation: panelEntrance 1.4s ease-out forwards;
+      transition: all 0.8s ease-out;
     }
 
-    @keyframes panelEntrance {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    .panel.hidden { opacity: 0; pointer-events: none; transform: translateY(300px); }
 
     .panel-content {
       background: linear-gradient(135deg, #1a0033, #2a004d);
@@ -93,79 +79,138 @@
       max-width: 92%;
       text-align: center;
       box-shadow: 0 0 50px rgba(160,32,240,0.6);
-      opacity: 0;
-      transform: scale(0.92);
-      animation: contentPop 0.8s ease-out 0.6s forwards; /* Aparece um pouco depois */
     }
 
-    @keyframes contentPop {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+    /* Login */
+    #login-panel .panel-content { animation: slideUp 1.4s ease-out forwards; }
+    @keyframes slideUp { from { opacity:0; transform:translateY(200px); } to { opacity:1; transform:translateY(0); } }
 
-    h1 {
-      font-size: 2.4rem;
-      margin-bottom: 35px;
-      color: #d8bfd8;
-      text-shadow: 0 0 18px #c71585;
-    }
+    h1 { font-size:2.4rem; margin-bottom:35px; color:#d8bfd8; text-shadow:0 0 18px #c71585; }
 
     .input-box {
-      background: #0f001a;
-      border: 1.5px solid #9932cc;
+      background:#0f001a;
+      border:1.5px solid #9932cc;
+      border-radius:12px;
+      padding:20px 24px;
+      margin:0 auto 30px;
+      width:100%;
+      max-width:340px;
+      font-size:1.3rem;
+      color:#e0e0ff;
+      text-align:center;
+    }
+
+    .input-box::placeholder { color:#9966cc; font-size:1.15rem; }
+
+    button {
+      background:linear-gradient(90deg, #8a2be2, #c71585);
+      border:none;
+      color:white;
+      font-size:1.3rem;
+      font-weight:bold;
+      padding:16px 80px;
+      border-radius:50px;
+      cursor:pointer;
+      transition:all 0.3s;
+      box-shadow:0 6px 20px rgba(199,21,133,0.5);
+    }
+    button:hover { transform:translateY(-4px); box-shadow:0 14px 35px rgba(199,21,133,0.7); }
+
+    #login-message { margin-top:28px; font-size:1.2rem; font-weight:bold; min-height:32px; }
+    .success { color:#00ff9d; text-shadow:0 0 12px #00ff9d; }
+    .error   { color:#ff4d4d; text-shadow:0 0 12px #ff4d4d; }
+
+    /* Painel principal (códigos) */
+    #main-panel .panel-content {
+      width: 720px;
+      max-width: 96%;
+      padding: 40px;
+      animation: fadeScale 0.9s ease-out forwards;
+    }
+    @keyframes fadeScale { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+
+    #main-title { font-size: 2.8rem; margin-bottom: 40px; }
+
+    .code-item {
+      background: rgba(40, 0, 80, 0.5);
+      border: 1px solid #9932cc;
       border-radius: 12px;
-      padding: 20px 24px;
-      margin: 0 auto 30px;
-      width: 100%;
-      max-width: 340px;
+      padding: 18px 24px;
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       font-size: 1.3rem;
+      transition: all 0.3s;
+    }
+    .code-item:hover { background: rgba(60, 0, 100, 0.7); transform: translateX(6px); }
+
+    .rename-btn {
+      background: #8a2be2;
+      border: none;
+      color: white;
+      font-size: 1.4rem;
+      font-weight: bold;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .rename-btn:hover { background: #c71585; transform: scale(1.15); }
+
+    /* Modal de renomear */
+    #rename-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    #rename-modal.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #220044, #3a0066);
+      border: 3px solid #c71585;
+      border-radius: 20px;
+      padding: 50px 60px;
+      width: 90%;
+      max-width: 680px;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(199,21,133,0.7);
+      transform: scale(0.7);
+      transition: transform 0.5s ease-out;
+    }
+    #rename-modal.show .modal-content { transform: scale(1); }
+
+    .modal-input {
+      background: #0f001a;
+      border: 2px solid #a020f0;
+      border-radius: 14px;
+      padding: 22px 28px;
+      margin: 30px auto;
+      width: 100%;
+      font-size: 1.5rem;
       color: #e0e0ff;
       text-align: center;
     }
 
-    .input-box::placeholder {
-      color: #9966cc;
-      font-size: 1.15rem;
+    .save-btn {
+      padding: 18px 90px;
+      font-size: 1.4rem;
     }
-
-    button {
-      background: linear-gradient(90deg, #8a2be2, #c71585);
-      border: none;
-      color: white;
-      font-size: 1.3rem;
-      font-weight: bold;
-      padding: 16px 80px;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 6px 20px rgba(199,21,133,0.5);
-    }
-
-    button:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 35px rgba(199,21,133,0.7);
-    }
-
-    /* Mensagem com animação */
-    #message {
-      margin-top: 28px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      min-height: 32px;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.6s ease-out;
-    }
-
-    #message.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .success { color: #00ff9d; text-shadow: 0 0 12px #00ff9d; }
-    .error   { color: #ff4d4d; text-shadow: 0 0 12px #ff4d4d; }
   </style>
 </head>
 <body>
@@ -180,51 +225,116 @@
     <div class="dot"></div>
   </div>
 
-  <div class="panel">
+  <!-- Painel de Login -->
+  <div class="panel" id="login-panel">
     <div class="panel-content">
       <h1>Tiger Hub key ( Adms )</h1>
-      
-      <input 
-        type="text" 
-        class="input-box" 
-        placeholder="... Bote a key Apenas ADMS aqui ..."
-        id="keyInput"
-      >
-      
+      <input type="text" class="input-box" placeholder="... Bote a key Apenas ADMS aqui ..." id="keyInput">
       <button onclick="checkKey()">ENTRAR</button>
+      <div id="login-message"></div>
+    </div>
+  </div>
 
-      <div id="message"></div>
+  <!-- Painel Principal (Códigos) -->
+  <div class="panel hidden" id="main-panel">
+    <div class="panel-content">
+      <h1 id="main-title">Códigos Tiger Hub</h1>
+
+      <div id="codes-list">
+        <!-- Itens serão adicionados via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Renomear -->
+  <div id="rename-modal">
+    <div class="modal-content">
+      <h2 style="font-size:2.2rem; margin-bottom:30px;">Renomear Caixa</h2>
+      <input type="text" class="modal-input" placeholder="...Bote o nome da caixa aqui..." id="renameInput">
+      <button class="save-btn" onclick="saveRename()">SALVAR</button>
     </div>
   </div>
 
   <script>
+    const correctKey = "ADMSGGSapenasTIGERX";
+    let currentEditIndex = -1;
+
+    // Lista inicial de caixas (pode adicionar mais ou deixar vazio)
+    let boxes = [
+      { name: "Caixa Sem Nome" },
+      { name: "Caixa Sem Nome" },
+      { name: "Caixa Sem Nome" },
+      { name: "Caixa Sem Nome" },
+      { name: "Caixa Sem Nome" }
+    ];
+
+    const codesList = document.getElementById("codes-list");
+    const renameModal = document.getElementById("rename-modal");
+    const renameInput = document.getElementById("renameInput");
+
+    function renderBoxes() {
+      codesList.innerHTML = "";
+      boxes.forEach((box, index) => {
+        const item = document.createElement("div");
+        item.className = "code-item";
+        item.innerHTML = `
+          Caixa ( <span id="box-name-${index}">${box.name}</span> )
+          <button class="rename-btn" onclick="openRename(${index})">+</button>
+        `;
+        codesList.appendChild(item);
+      });
+    }
+
+    function openRename(index) {
+      currentEditIndex = index;
+      renameInput.value = boxes[index].name === "Caixa Sem Nome" ? "" : boxes[index].name;
+      renameModal.classList.add("show");
+    }
+
+    function saveRename() {
+      if (currentEditIndex !== -1) {
+        const newName = renameInput.value.trim() || "Caixa Sem Nome";
+        boxes[currentEditIndex].name = newName;
+        document.getElementById(`box-name-${currentEditIndex}`).textContent = newName;
+      }
+      renameModal.classList.remove("show");
+      currentEditIndex = -1;
+    }
+
     function checkKey() {
       const input = document.getElementById("keyInput").value.trim();
-      const messageEl = document.getElementById("message");
-      const correctKey = "ADMSGGSapenasTIGERX";
+      const msg = document.getElementById("login-message");
 
-      // Resetar mensagem
-      messageEl.className = "";
-      messageEl.textContent = "";
-      messageEl.classList.remove("show");
+      msg.className = "";
+      msg.textContent = "";
 
-      setTimeout(() => { // pequeno delay pra animação resetar
-        if (input === correctKey) {
-          messageEl.className = "success";
-          messageEl.textContent = "KEY correta Indo Ao painel...";
-          messageEl.classList.add("show");
+      if (input === correctKey) {
+        msg.className = "success";
+        msg.textContent = "KEY correta Indo Ao painel...";
 
-          setTimeout(() => {
-            // window.location.href = "URL_DO_PAINEL_AQUI";
-            alert("Acesso liberado! (substitua pelo redirecionamento real)");
-          }, 2200);
-        } else {
-          messageEl.className = "error";
-          messageEl.textContent = "Key INVALIDA!";
-          messageEl.classList.add("show");
-        }
-      }, 100);
+        // Animação: login desce e some
+        const loginPanel = document.getElementById("login-panel");
+        loginPanel.style.transition = "all 0.9s ease-in";
+        loginPanel.classList.add("hidden");
+
+        // Mostra painel principal subindo
+        setTimeout(() => {
+          const mainPanel = document.getElementById("main-panel");
+          mainPanel.classList.remove("hidden");
+          renderBoxes(); // renderiza as caixas
+        }, 800);
+      } else {
+        msg.className = "error";
+        msg.textContent = "Key INVALIDA!";
+      }
     }
+
+    // Fecha modal se clicar fora (opcional)
+    renameModal.addEventListener("click", (e) => {
+      if (e.target === renameModal) {
+        renameModal.classList.remove("show");
+      }
+    });
   </script>
 
 </body>
