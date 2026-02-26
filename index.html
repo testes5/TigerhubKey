@@ -8,14 +8,14 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       min-height: 100vh;
-      background: #0d001a;
+      background: #0d001a; /* Fundo roxo escuro puro */
       font-family: Arial, Helvetica, sans-serif;
       color: white;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* Fundo limpo só com bolinhas */
+    /* Bolinhas roxas fixas no fundo (35) */
     .background-dots {
       position: fixed;
       inset: 0;
@@ -30,7 +30,7 @@
       opacity: 0.7;
     }
 
-    /* 35 bolinhas fixas (sempre na mesma posição) */
+    /* Posições fixas das 35 bolinhas */
     .dot:nth-child(1)  { width:8px;  height:8px;  left:4%;   top:8%;  }
     .dot:nth-child(2)  { width:12px; height:12px; left:15%;  top:22%; }
     .dot:nth-child(3)  { width:6px;  height:6px;  left:28%;  top:12%; }
@@ -74,8 +74,7 @@
       align-items: center;
       justify-content: center;
       z-index: 10;
-      background: rgba(0,0,0,0.35); /* fundo levemente escurecido só quando o painel está aberto */
-      backdrop-filter: blur(6px);
+      background: transparent; /* Fundo transparente para ver as bolinhas */
       transition: all 0.8s ease-out;
     }
     .panel.hidden { opacity:0; pointer-events:none; transform:translateY(300px); }
@@ -91,7 +90,7 @@
       box-shadow: 0 0 50px rgba(160,32,240,0.6);
       overflow-y: auto;
       max-height: 92vh;
-      z-index: 11; /* acima das bolinhas */
+      z-index: 11;
     }
 
     h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); margin-bottom: 30px; color:#d8bfd8; text-shadow:0 0 18px #c71585; }
