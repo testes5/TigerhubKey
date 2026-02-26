@@ -8,7 +8,7 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       min-height: 100vh;
-      background: #0d001a; /* Fundo roxo escuro puro - sem nada por cima */
+      background: #0d001a; /* Fundo puro - sem caixa, sem gradiente cobrindo bolinhas */
       font-family: Arial, Helvetica, sans-serif;
       color: white;
       overflow-x: hidden;
@@ -66,7 +66,7 @@
     .dot:nth-child(34) { width:10px; height:10px; left:78%;  top:35%; }
     .dot:nth-child(35) { width:8px;  height:8px;  left:25%;  top:95%; }
 
-    /* Painel transparente - só o conteúdo tem fundo */
+    /* Painel sem fundo cobrindo bolinhas */
     .panel {
       position: fixed;
       inset: 0;
@@ -74,10 +74,10 @@
       align-items: center;
       justify-content: center;
       z-index: 10;
-      background: transparent; /* Sem fundo ou blur cobrindo as bolinhas */
-      transition: all 0.8s ease-out;
+      background: transparent;
+      transition: opacity 0.8s ease-out;
     }
-    .panel.hidden { opacity:0; pointer-events:none; transform:translateY(300px); }
+    .panel.hidden { opacity: 0; pointer-events: none; }
 
     .panel-content {
       background: linear-gradient(135deg, #1a0033, #2a004d);
@@ -248,6 +248,73 @@
       box-shadow: 0 15px 40px rgba(0,255,157,0.7);
     }
 
+    /* Modal de edição */
+    #edit-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    #edit-modal.show { opacity: 1; pointer-events: all; }
+
+    .modal-content {
+      background: linear-gradient(135deg, #1c0038, #320066);
+      border: 3px solid #c71585;
+      border-radius: 20px;
+      padding: 40px;
+      width: 92%;
+      max-width: 1200px;
+      height: 90vh;
+      max-height: 95vh;
+      overflow-y: auto;
+      box-shadow: 0 0 70px rgba(199,21,133,0.8);
+      transform: scale(0.8);
+      transition: transform 0.5s ease-out;
+    }
+    #edit-modal.show .modal-content { transform: scale(1); }
+
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+    .modal-header h2 { font-size: 2.4rem; }
+
+    .name-input, textarea.code-editor {
+      background: #0f001a;
+      border: 2px solid #a020f0;
+      border-radius: 12px;
+      padding: 16px 22px;
+      margin-bottom: 25px;
+      width: 100%;
+      font-size: 1.35rem;
+      color: #e0e0ff;
+      font-family: inherit;
+    }
+    textarea.code-editor {
+      height: 55vh;
+      font-family: 'Courier New', monospace;
+      color: #d0ffd0;
+      resize: vertical;
+    }
+
+    .modal-buttons { display: flex; gap: 25px; justify-content: center; }
+    .save-btn, .close-btn {
+      padding: 16px 90px;
+      font-size: 1.4rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .save-btn { background: linear-gradient(90deg, #8a2be2, #c71585); color: white; }
+    .save-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(199,21,133,0.6); }
+    .close-btn { background: #555; color: white; }
+    .close-btn:hover { background: #777; }
+
     @media (max-width: 600px) {
       .panel-content { padding: 24px 16px; border-radius: 0; }
       .add-new-btn { bottom: 16px; right: 16px; width: 64px; height: 64px; font-size: 2.5rem; }
@@ -278,7 +345,7 @@
     <div class="panel-content">
       <!-- Logo redonda EM CIMA do título -->
       <div class="logo-container">
-        <img src="https://i.imgur.com/INSIRA-O-LINK-DA-SUA-IMAGEM-AQUI.png" alt="Tiger Hub Logo" class="logo">
+        <img src="https://imgur.com/a/jTwwVxm" alt="Tiger Hub Logo" class="logo">
       </div>
 
       <h1>Tiger Hub key ( Adms )</h1>
