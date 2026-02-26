@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tiger Hub key (Adms)</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background: #0d001a;
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Bolinhas roxas fixas no fundo */
+    .background-dots {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .dot {
+      position: absolute;
+      background: #a020f0;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #c7158580;
+      opacity: 0.7;
+    }
+
+    /* Tamanhos e posições fixas (não mudam ao recarregar) */
+    .dot:nth-child(1)  { width: 6px;  height: 6px;  left: 8%;   top: 12%; }
+    .dot:nth-child(2)  { width: 10px; height: 10px; left: 15%;  top: 28%; }
+    .dot:nth-child(3)  { width: 8px;  height: 8px;  left: 22%;  top: 65%; }
+    .dot:nth-child(4)  { width: 12px; height: 12px; left: 35%;  top: 18%; }
+    .dot:nth-child(5)  { width: 7px;  height: 7px;  left: 48%;  top: 42%; }
+    .dot:nth-child(6)  { width: 9px;  height: 9px;  left: 57%;  top: 8%;  }
+    .dot:nth-child(7)  { width: 11px; height: 11px; left: 68%;  top: 55%; }
+    .dot:nth-child(8)  { width: 5px;  height: 5px;  left: 79%;  top: 33%; }
+    .dot:nth-child(9)  { width: 13px; height: 13px; left: 88%;  top: 71%; }
+    .dot:nth-child(10) { width: 8px;  height: 8px;  left: 4%;   top: 79%; }
+    .dot:nth-child(11) { width: 10px; height: 10px; left: 91%;  top: 19%; }
+    .dot:nth-child(12) { width: 7px;  height: 7px;  left: 31%;  top: 88%; }
+    .dot:nth-child(13) { width: 9px;  height: 9px;  left: 72%;  top: 92%; }
+    .dot:nth-child(14) { width: 6px;  height: 6px;  left: 41%;  top: 5%;  }
+    .dot:nth-child(15) { width: 12px; height: 12px; left: 82%;  top: 44%; }
+
+    /* Painel central com animação */
+    .panel {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      animation: fadeIn 1.2s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .panel-content {
+      background: linear-gradient(135deg, #1a0033, #2a004d);
+      border: 2px solid #a020f0;
+      border-radius: 16px;
+      padding: 40px 50px;
+      width: 380px;
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(160,32,240,0.5);
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      margin-bottom: 28px;
+      color: #d8bfd8;
+      text-shadow: 0 0 15px #c71585;
+    }
+
+    .input-box {
+      background: #0f001a;
+      border: 1px solid #9932cc;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 0 auto 24px;
+      width: 100%;
+      max-width: 280px;
+      font-size: 1.1rem;
+      color: #e0e0ff;
+      text-align: center;
+    }
+
+    .input-box::placeholder {
+      color: #9966cc;
+    }
+
+    button {
+      background: linear-gradient(90deg, #8a2be2, #c71585);
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 14px 60px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(199,21,133,0.4);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(199,21,133,0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="background-dots">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-content">
+      <h1>Tiger Hub key ( Adms )</h1>
+      
+      <input 
+        type="text" 
+        class="input-box" 
+        placeholder="... Bote a key Apenas ADMS aqui ..."
+        id="keyInput"
+      >
+      
+      <button onclick="checkKey()">ENTRAR</button>
+    </div>
+  </div>
+
+  <script>
+    function checkKey() {
+      const input = document.getElementById("keyInput").value.trim();
+      const correctKey = "ADMSGGSapenasTIGERX";
+
+      if (input === correctKey) {
+        alert("Key correta! Acesso liberado (aqui você colocaria o redirecionamento ou o que quiser)");
+        // window.location.href = "https://seusite.com/painel";  ← descomente e troque
+      } else {
+        alert("Key incorreta. Tente novamente.");
+      }
+    }
+  </script>
+
+</body>
+</html>
