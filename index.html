@@ -66,13 +66,13 @@
     .panel-content {
       background:linear-gradient(135deg, #1a0033, #2a004d);
       border:2px solid #a020f0; border-radius:18px;
-      padding:50px 60px; width:440px; max-width:92%; text-align:center;
+      padding:50px 60px; width:480px; max-width:94%; text-align:center;
       box-shadow:0 0 50px rgba(160,32,240,0.6);
     }
 
-    h1 { font-size:2.4rem; margin-bottom:35px; color:#d8bfd8; text-shadow:0 0 18px #c71585; }
+    h1 { font-size:2.5rem; margin-bottom:40px; color:#d8bfd8; text-shadow:0 0 18px #c71585; }
 
-    /* Caixa de key (estilo bonito restaurado) */
+    /* Caixa de key */
     .input-box {
       background:#0f001a;
       border:1.5px solid #9932cc;
@@ -105,45 +105,57 @@
     .success { color:#00ff9d; text-shadow:0 0 12px #00ff9d; }
     .error   { color:#ff4d4d; text-shadow:0 0 12px #ff4d4d; }
 
-    /* CAIXAS MAIORES - sem parênteses */
+    /* CAIXAS GRANDES E SIMPLES: CAIXA nome + */
     .code-item {
       background:rgba(40,0,80,0.7);
       border:1.5px solid #9932cc;
       border-radius:16px;
-      padding:24px 32px;           /* mais padding */
-      margin:20px 0;
+      padding:28px 36px;
+      margin:24px 0;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      font-size:1.5rem;            /* fonte maior */
-      font-weight:500;
+      font-size:1.7rem;
+      font-weight:600;
       transition:all 0.3s;
-      min-height:80px;             /* altura mínima maior */
+      min-height:90px;
+      letter-spacing: 0.5px;
     }
     .code-item:hover {
       background:rgba(60,0,100,0.9);
       transform:translateX(8px);
-      box-shadow:0 8px 25px rgba(160,32,240,0.4);
+      box-shadow:0 10px 30px rgba(160,32,240,0.4);
+    }
+
+    .code-label {
+      color: #d8bfd8;
+    }
+
+    .code-name {
+      color: #c71585;
+      margin-left: 12px;
+      flex: 1;
     }
 
     .rename-btn {
       background:#8a2be2;
       border:none;
       color:white;
-      font-size:1.8rem;
+      font-size:2rem;
       font-weight:bold;
-      width:56px;
-      height:56px;
+      width:60px;
+      height:60px;
       border-radius:50%;
       cursor:pointer;
       display:flex;
       align-items:center;
       justify-content:center;
       transition:all 0.3s;
+      box-shadow:0 4px 15px rgba(138,43,226,0.5);
     }
     .rename-btn:hover { background:#c71585; transform:scale(1.25); }
 
-    /* Modal ENORME para código */
+    /* Modal ENORME */
     #edit-modal {
       position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(10px);
       display:flex; align-items:center; justify-content:center; z-index:20;
@@ -243,10 +255,10 @@
     let currentEditIndex = -1;
 
     let boxes = JSON.parse(localStorage.getItem('tigerHubBoxes')) || [
-      { name: "Caixa 1", code: "" },
-      { name: "Caixa 2", code: "" },
-      { name: "Caixa 3", code: "" },
-      { name: "Caixa 4", code: "" }
+      { name: "Sem Nome", code: "" },
+      { name: "Sem Nome", code: "" },
+      { name: "Sem Nome", code: "" },
+      { name: "Sem Nome", code: "" }
     ];
 
     const codesList = document.getElementById("codes-list");
@@ -261,7 +273,8 @@
         const item = document.createElement("div");
         item.className = "code-item";
         item.innerHTML = `
-          Caixa ${box.name}
+          <span class="code-label">CAIXA</span>
+          <span class="code-name">${box.name}</span>
           <button class="rename-btn" onclick="openEditModal(${index})">+</button>
         `;
         codesList.appendChild(item);
@@ -271,7 +284,7 @@
     function openEditModal(index) {
       currentEditIndex = index;
       const box = boxes[index];
-      modalTitle.textContent = `Editar Código da Caixa: ${box.name}`;
+      modalTitle.textContent = `Editar Código: ${box.name}`;
       editName.value = box.name;
       editCode.value = box.code || "";
       editModal.classList.add("show");
@@ -279,7 +292,7 @@
 
     function saveCode() {
       if (currentEditIndex !== -1) {
-        boxes[currentEditIndex].name = editName.value.trim() || `Caixa ${currentEditIndex + 1}`;
+        boxes[currentEditIndex].name = editName.value.trim() || "Sem Nome";
         boxes[currentEditIndex].code = editCode.value;
         localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
         renderBoxes();
