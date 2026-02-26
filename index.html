@@ -61,22 +61,33 @@
 
     h1 { font-size:2.6rem; margin-bottom:35px; color:#d8bfd8; text-shadow:0 0 18px #c71585; }
 
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 20px;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+
     .input-box {
       background:#0f001a; border:1.5px solid #9932cc; border-radius:12px;
-      padding:20px 24px; margin:0 auto 30px; width:100%; max-width:340px;
-      font-size:1.3rem; color:#e0e0ff; text-align:center;
+      padding:20px 24px; width:100%; font-size:1.3rem; color:#e0e0ff; text-align:center;
     }
     .input-box::placeholder { color:#9966cc; font-size:1.15rem; }
 
-    button {
+    button.main-btn {
       background:linear-gradient(90deg, #8a2be2, #c71585);
       border:none; color:white; font-size:1.3rem; font-weight:bold;
       padding:16px 80px; border-radius:50px; cursor:pointer;
       transition:all 0.3s; box-shadow:0 6px 20px rgba(199,21,133,0.5);
+      align-self: flex-end;
     }
-    button:hover { transform:translateY(-4px); box-shadow:0 14px 35px rgba(199,21,133,0.7); }
+    button.main-btn:hover { transform:translateY(-4px); box-shadow:0 14px 35px rgba(199,21,133,0.7); }
 
-    #login-message { margin-top:28px; font-size:1.2rem; font-weight:bold; min-height:32px; }
+    #login-message { margin-top:12px; font-size:1.2rem; font-weight:bold; min-height:32px; align-self: flex-end; }
+
     .success { color:#00ff9d; text-shadow:0 0 12px #00ff9d; }
     .error { color:#ff4d4d; text-shadow:0 0 12px #ff4d4d; }
 
@@ -104,11 +115,7 @@
       font-weight: 600;
     }
 
-    .code-title {
-      flex: 1;
-      word-break: break-word;
-    }
-
+    .code-title { flex: 1; word-break: break-word; }
     .code-label { color: #d8bfd8; }
     .code-name { color: #c71585; margin-left: 10px; }
 
@@ -128,10 +135,7 @@
       flex-shrink: 0;
       box-shadow: 0 4px 15px rgba(138,43,226,0.5);
     }
-    .rename-btn:hover {
-      background: #c71585;
-      transform: scale(1.15);
-    }
+    .rename-btn:hover { background: #c71585; transform: scale(1.15); }
 
     .code-preview {
       background: #0a0015;
@@ -154,6 +158,29 @@
       font-style: italic;
       margin-top: 8px;
       display: block;
+    }
+
+    /* Botão + grande para adicionar nova caixa */
+    .add-new-btn {
+      background: linear-gradient(90deg, #00ff9d, #00cc88);
+      border: none;
+      color: #0d001a;
+      font-size: 3rem;
+      font-weight: bold;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 40px auto 20px;
+      box-shadow: 0 8px 25px rgba(0,255,157,0.5);
+      transition: all 0.3s;
+    }
+    .add-new-btn:hover {
+      transform: scale(1.15) translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,255,157,0.7);
     }
 
     /* Modal ENORME */
@@ -214,9 +241,11 @@
   <div class="panel" id="login-panel">
     <div class="panel-content">
       <h1>Tiger Hub key ( Adms )</h1>
-      <input type="text" class="input-box" placeholder="... Bote a key Apenas ADMS aqui ..." id="keyInput">
-      <button onclick="checkKey()">ENTRAR</button>
-      <div id="login-message"></div>
+      <div class="login-form">
+        <input type="text" class="input-box" placeholder="... Bote a key Apenas ADMS aqui ..." id="keyInput">
+        <button class="main-btn" onclick="checkKey()">ENTRAR</button>
+        <div id="login-message"></div>
+      </div>
     </div>
   </div>
 
@@ -224,6 +253,9 @@
     <div class="panel-content">
       <h1>Códigos Tiger Hub</h1>
       <div id="codes-list"></div>
+
+      <!-- Botão + para adicionar nova caixa -->
+      <button class="add-new-btn" onclick="addNewBox()">+</button>
     </div>
   </div>
 
@@ -247,7 +279,6 @@
     let currentEditIndex = -1;
 
     let boxes = JSON.parse(localStorage.getItem('tigerHubBoxes')) || [
-      { name: "Sem Nome", code: "" },
       { name: "Sem Nome", code: "" },
       { name: "Sem Nome", code: "" },
       { name: "Sem Nome", code: "" }
@@ -299,6 +330,12 @@
         `;
         codesList.appendChild(item);
       });
+    }
+
+    function addNewBox() {
+      boxes.push({ name: "Nova Caixa", code: "" });
+      localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
+      renderBoxes();
     }
 
     function openEditModal(index) {
