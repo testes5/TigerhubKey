@@ -8,14 +8,14 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       min-height: 100vh;
-      background: #0d001a; /* Fundo puro, sem caixa ou gradiente cobrindo */
+      background: #0d001a; /* Fundo roxo escuro puro - sem nada por cima */
       font-family: Arial, Helvetica, sans-serif;
       color: white;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* Bolinhas fixas (35) - sempre as mesmas posições */
+    /* Bolinhas fixas (35) - sempre nas mesmas posições */
     .background-dots {
       position: fixed;
       inset: 0;
@@ -29,6 +29,7 @@
       box-shadow: 0 0 12px #c7158580;
       opacity: 0.7;
     }
+
     .dot:nth-child(1)  { width:8px;  height:8px;  left:4%;   top:8%;  }
     .dot:nth-child(2)  { width:12px; height:12px; left:15%;  top:22%; }
     .dot:nth-child(3)  { width:6px;  height:6px;  left:28%;  top:12%; }
@@ -65,6 +66,7 @@
     .dot:nth-child(34) { width:10px; height:10px; left:78%;  top:35%; }
     .dot:nth-child(35) { width:8px;  height:8px;  left:25%;  top:95%; }
 
+    /* Painel transparente - só o conteúdo tem fundo */
     .panel {
       position: fixed;
       inset: 0;
@@ -72,7 +74,7 @@
       align-items: center;
       justify-content: center;
       z-index: 10;
-      background: transparent; /* Sem fundo cobrindo as bolinhas */
+      background: transparent; /* Sem fundo ou blur cobrindo as bolinhas */
       transition: all 0.8s ease-out;
     }
     .panel.hidden { opacity:0; pointer-events:none; transform:translateY(300px); }
@@ -276,7 +278,7 @@
     <div class="panel-content">
       <!-- Logo redonda EM CIMA do título -->
       <div class="logo-container">
-        <img src="https://imgur.com/a/bkaujOD" alt="Tiger Hub Logo" class="logo">
+        <img src="https://i.imgur.com/INSIRA-O-LINK-DA-SUA-IMAGEM-AQUI.png" alt="Tiger Hub Logo" class="logo">
       </div>
 
       <h1>Tiger Hub key ( Adms )</h1>
