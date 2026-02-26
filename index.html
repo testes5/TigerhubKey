@@ -15,7 +15,7 @@
       position: relative;
     }
 
-    /* Bolinhas roxas fixas de volta - 25 bolinhas */
+    /* Bolinhas roxas fixas - 25 */
     .background-dots {
       position: fixed;
       inset: 0;
@@ -72,7 +72,7 @@
 
     h1 { font-size:2.4rem; margin-bottom:35px; color:#d8bfd8; text-shadow:0 0 18px #c71585; }
 
-    /* Caixa de key restaurada (como nas versões anteriores) */
+    /* Caixa de key (estilo bonito restaurado) */
     .input-box {
       background:#0f001a;
       border:1.5px solid #9932cc;
@@ -85,10 +85,7 @@
       color:#e0e0ff;
       text-align:center;
     }
-    .input-box::placeholder {
-      color:#9966cc;
-      font-size:1.15rem;
-    }
+    .input-box::placeholder { color:#9966cc; font-size:1.15rem; }
 
     button {
       background:linear-gradient(90deg, #8a2be2, #c71585);
@@ -108,20 +105,43 @@
     .success { color:#00ff9d; text-shadow:0 0 12px #00ff9d; }
     .error   { color:#ff4d4d; text-shadow:0 0 12px #ff4d4d; }
 
-    /* Itens do painel principal */
+    /* CAIXAS MAIORES - sem parênteses */
     .code-item {
-      background:rgba(40,0,80,0.6); border:1px solid #9932cc; border-radius:12px;
-      padding:18px 24px; margin:16px 0; display:flex; align-items:center; justify-content:space-between;
-      font-size:1.3rem; transition:all 0.3s;
+      background:rgba(40,0,80,0.7);
+      border:1.5px solid #9932cc;
+      border-radius:16px;
+      padding:24px 32px;           /* mais padding */
+      margin:20px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-size:1.5rem;            /* fonte maior */
+      font-weight:500;
+      transition:all 0.3s;
+      min-height:80px;             /* altura mínima maior */
     }
-    .code-item:hover { background:rgba(60,0,100,0.8); transform:translateX(6px); }
+    .code-item:hover {
+      background:rgba(60,0,100,0.9);
+      transform:translateX(8px);
+      box-shadow:0 8px 25px rgba(160,32,240,0.4);
+    }
 
     .rename-btn {
-      background:#8a2be2; border:none; color:white; font-size:1.6rem; font-weight:bold;
-      width:48px; height:48px; border-radius:50%; cursor:pointer;
-      display:flex; align-items:center; justify-content:center; transition:all 0.3s;
+      background:#8a2be2;
+      border:none;
+      color:white;
+      font-size:1.8rem;
+      font-weight:bold;
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:all 0.3s;
     }
-    .rename-btn:hover { background:#c71585; transform:scale(1.2); }
+    .rename-btn:hover { background:#c71585; transform:scale(1.25); }
 
     /* Modal ENORME para código */
     #edit-modal {
@@ -169,7 +189,6 @@
 </head>
 <body>
 
-  <!-- Bolinhas de volta -->
   <div class="background-dots">
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -180,7 +199,7 @@
     <div class="dot"></div>
   </div>
 
-  <!-- Painel de Login (caixa de key restaurada) -->
+  <!-- Login -->
   <div class="panel" id="login-panel">
     <div class="panel-content">
       <h1>Tiger Hub key ( Adms )</h1>
@@ -195,7 +214,7 @@
     </div>
   </div>
 
-  <!-- Painel Principal -->
+  <!-- Painel principal -->
   <div class="panel hidden" id="main-panel">
     <div class="panel-content">
       <h1>Códigos Tiger Hub</h1>
@@ -203,7 +222,7 @@
     </div>
   </div>
 
-  <!-- Modal ENORME para editar código -->
+  <!-- Modal ENORME -->
   <div id="edit-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -242,7 +261,7 @@
         const item = document.createElement("div");
         item.className = "code-item";
         item.innerHTML = `
-          Caixa ( ${box.name} )
+          Caixa ${box.name}
           <button class="rename-btn" onclick="openEditModal(${index})">+</button>
         `;
         codesList.appendChild(item);
