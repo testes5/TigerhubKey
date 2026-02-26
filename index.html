@@ -20,7 +20,7 @@
       position: relative;
     }
 
-    /* Bolinhas roxas fixas no fundo */
+    /* MUITAS bolinhas roxas fixas – agora 25! */
     .background-dots {
       position: fixed;
       inset: 0;
@@ -36,24 +36,34 @@
       opacity: 0.7;
     }
 
-    /* Tamanhos e posições fixas (não mudam ao recarregar) */
-    .dot:nth-child(1)  { width: 6px;  height: 6px;  left: 8%;   top: 12%; }
-    .dot:nth-child(2)  { width: 10px; height: 10px; left: 15%;  top: 28%; }
-    .dot:nth-child(3)  { width: 8px;  height: 8px;  left: 22%;  top: 65%; }
-    .dot:nth-child(4)  { width: 12px; height: 12px; left: 35%;  top: 18%; }
-    .dot:nth-child(5)  { width: 7px;  height: 7px;  left: 48%;  top: 42%; }
-    .dot:nth-child(6)  { width: 9px;  height: 9px;  left: 57%;  top: 8%;  }
-    .dot:nth-child(7)  { width: 11px; height: 11px; left: 68%;  top: 55%; }
-    .dot:nth-child(8)  { width: 5px;  height: 5px;  left: 79%;  top: 33%; }
-    .dot:nth-child(9)  { width: 13px; height: 13px; left: 88%;  top: 71%; }
-    .dot:nth-child(10) { width: 8px;  height: 8px;  left: 4%;   top: 79%; }
-    .dot:nth-child(11) { width: 10px; height: 10px; left: 91%;  top: 19%; }
-    .dot:nth-child(12) { width: 7px;  height: 7px;  left: 31%;  top: 88%; }
-    .dot:nth-child(13) { width: 9px;  height: 9px;  left: 72%;  top: 92%; }
-    .dot:nth-child(14) { width: 6px;  height: 6px;  left: 41%;  top: 5%;  }
-    .dot:nth-child(15) { width: 12px; height: 12px; left: 82%;  top: 44%; }
+    /* Posições fixas e variadas */
+    .dot:nth-child(1)  { width: 8px;  height: 8px;  left: 5%;   top: 10%; }
+    .dot:nth-child(2)  { width: 12px; height: 12px; left: 18%;  top: 25%; }
+    .dot:nth-child(3)  { width: 6px;  height: 6px;  left: 32%;  top: 15%; }
+    .dot:nth-child(4)  { width: 10px; height: 10px; left: 45%;  top: 40%; }
+    .dot:nth-child(5)  { width: 9px;  height: 9px;  left: 60%;  top: 8%;  }
+    .dot:nth-child(6)  { width: 7px;  height: 7px;  left: 72%;  top: 55%; }
+    .dot:nth-child(7)  { width: 11px; height: 11px; left: 88%;  top: 30%; }
+    .dot:nth-child(8)  { width: 13px; height: 13px; left: 10%;  top: 70%; }
+    .dot:nth-child(9)  { width: 8px;  height: 8px;  left: 25%;  top: 85%; }
+    .dot:nth-child(10) { width: 10px; height: 10px; left: 40%;  top: 65%; }
+    .dot:nth-child(11) { width: 5px;  height: 5px;  left: 55%;  top: 20%; }
+    .dot:nth-child(12) { width: 14px; height: 14px; left: 78%;  top: 78%; }
+    .dot:nth-child(13) { width: 9px;  height: 9px;  left: 90%;  top: 45%; }
+    .dot:nth-child(14) { width: 7px;  height: 7px;  left: 15%;  top: 50%; }
+    .dot:nth-child(15) { width: 11px; height: 11px; left: 35%;  top: 92%; }
+    .dot:nth-child(16) { width: 6px;  height: 6px;  left: 50%;  top: 5%;  }
+    .dot:nth-child(17) { width: 12px; height: 12px; left: 65%;  top: 75%; }
+    .dot:nth-child(18) { width: 8px;  height: 8px;  left: 82%;  top: 12%; }
+    .dot:nth-child(19) { width: 10px; height: 10px; left: 3%;   top: 88%; }
+    .dot:nth-child(20) { width: 9px;  height: 9px;  left: 20%;  top: 35%; }
+    .dot:nth-child(21) { width: 13px; height: 13px; left: 95%;  top: 60%; }
+    .dot:nth-child(22) { width: 7px;  height: 7px;  left: 28%;  top: 78%; }
+    .dot:nth-child(23) { width: 11px; height: 11px; left: 70%;  top: 18%; }
+    .dot:nth-child(24) { width: 5px;  height: 5px;  left: 85%;  top: 50%; }
+    .dot:nth-child(25) { width: 12px; height: 12px; left: 42%;  top: 95%; }
 
-    /* Painel central com animação */
+    /* Painel com animação de subida */
     .panel {
       position: fixed;
       inset: 0;
@@ -61,78 +71,96 @@
       align-items: center;
       justify-content: center;
       z-index: 10;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
-      animation: fadeIn 1.2s ease-out forwards;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transform: translateY(140px);
+      animation: slideUp 1.2s ease-out 0.1s forwards;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.92); }
-      to   { opacity: 1; transform: scale(1); }
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .panel-content {
       background: linear-gradient(135deg, #1a0033, #2a004d);
       border: 2px solid #a020f0;
-      border-radius: 16px;
-      padding: 40px 50px;
-      width: 380px;
-      max-width: 90%;
+      border-radius: 18px;
+      padding: 45px 55px;
+      width: 420px;
+      max-width: 92%;
       text-align: center;
-      box-shadow: 0 0 40px rgba(160,32,240,0.5);
+      box-shadow: 0 0 45px rgba(160,32,240,0.55);
     }
 
     h1 {
-      font-size: 2.1rem;
-      margin-bottom: 28px;
+      font-size: 2.3rem;
+      margin-bottom: 32px;
       color: #d8bfd8;
       text-shadow: 0 0 15px #c71585;
     }
 
     .input-box {
       background: #0f001a;
-      border: 1px solid #9932cc;
-      border-radius: 10px;
-      padding: 14px 18px;
-      margin: 0 auto 24px;
+      border: 1.5px solid #9932cc;
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 0 auto 28px;
       width: 100%;
-      max-width: 280px;
-      font-size: 1.1rem;
+      max-width: 320px;
+      font-size: 1.25rem;
       color: #e0e0ff;
       text-align: center;
     }
 
     .input-box::placeholder {
       color: #9966cc;
+      font-size: 1.1rem;
     }
 
     button {
       background: linear-gradient(90deg, #8a2be2, #c71585);
       border: none;
       color: white;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: bold;
-      padding: 14px 60px;
+      padding: 16px 70px;
       border-radius: 50px;
       cursor: pointer;
       transition: all 0.3s;
-      box-shadow: 0 5px 15px rgba(199,21,133,0.4);
+      box-shadow: 0 6px 18px rgba(199,21,133,0.45);
     }
 
     button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(199,21,133,0.6);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(199,21,133,0.65);
     }
+
+    #message {
+      margin-top: 24px;
+      font-size: 1.15rem;
+      font-weight: bold;
+      min-height: 28px;
+    }
+
+    .success { color: #00ff88; text-shadow: 0 0 10px #00ff88; }
+    .error   { color: #ff4d4d; text-shadow: 0 0 10px #ff4d4d; }
   </style>
 </head>
 <body>
 
   <div class="background-dots">
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <!-- 25 bolinhas -->
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div>
   </div>
 
   <div class="panel">
@@ -147,19 +175,31 @@
       >
       
       <button onclick="checkKey()">ENTRAR</button>
+
+      <div id="message"></div>
     </div>
   </div>
 
   <script>
     function checkKey() {
       const input = document.getElementById("keyInput").value.trim();
+      const messageEl = document.getElementById("message");
       const correctKey = "ADMSGGSapenasTIGERX";
 
+      messageEl.className = "";
+      messageEl.textContent = "";
+
       if (input === correctKey) {
-        alert("Key correta! Acesso liberado (aqui você colocaria o redirecionamento ou o que quiser)");
-        // window.location.href = "https://seusite.com/painel";  ← descomente e troque
+        messageEl.className = "success";
+        messageEl.textContent = "KEY correta Indo Ao painel...";
+        
+        setTimeout(() => {
+          // window.location.href = "URL_DO_PAINEL_AQUI";
+          alert("Acesso liberado! (troque pelo redirecionamento real)");
+        }, 1800);
       } else {
-        alert("Key incorreta. Tente novamente.");
+        messageEl.className = "error";
+        messageEl.textContent = "Key INVALIDA!";
       }
     }
   </script>
