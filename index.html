@@ -15,7 +15,6 @@
       position: relative;
     }
 
-    /* Bolinhas fixas no fundo (35) */
     .background-dots {
       position: fixed;
       inset: 0;
@@ -30,7 +29,7 @@
       opacity: 0.7;
     }
 
-    /* Posições das 35 bolinhas (fixas sempre) */
+    /* 35 bolinhas fixas */
     .dot:nth-child(1)  { width:8px;  height:8px;  left:4%;   top:8%;  }
     .dot:nth-child(2)  { width:12px; height:12px; left:15%;  top:22%; }
     .dot:nth-child(3)  { width:6px;  height:6px;  left:28%;  top:12%; }
@@ -168,6 +167,24 @@
     .code-label { color: #d8bfd8; }
     .code-name { color: #c71585; margin-left: 8px; }
 
+    .rename-btn {
+      background: #8a2be2;
+      border: none;
+      color: white;
+      font-size: clamp(1.8rem, 6vw, 2.1rem);
+      width: clamp(50px, 14vw, 58px);
+      height: clamp(50px, 14vw, 58px);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      flex-shrink: 0;
+      box-shadow: 0 4px 15px rgba(138,43,226,0.5);
+    }
+    .rename-btn:hover { background: #c71585; transform: scale(1.15); }
+
     .code-preview {
       background: #0a0015;
       border: 1px solid #552266;
@@ -192,8 +209,34 @@
       font-size: 0.95rem;
     }
 
+    .add-new-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(90deg, #00ff9d, #00cc88);
+      border: none;
+      color: #0d001a;
+      font-size: 2.8rem;
+      font-weight: bold;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 25px rgba(0,255,157,0.5);
+      transition: all 0.3s;
+      z-index: 15;
+    }
+    .add-new-btn:hover {
+      transform: scale(1.15);
+      box-shadow: 0 15px 40px rgba(0,255,157,0.7);
+    }
+
     @media (max-width: 600px) {
       .panel-content { padding: 24px 16px; border-radius: 0; }
+      .add-new-btn { bottom: 16px; right: 16px; width: 64px; height: 64px; font-size: 2.5rem; }
       .login-form { flex-direction: row; flex-wrap: nowrap; gap: 12px; }
       .input-box { flex: 1; }
       button.main-btn { flex: 0 0 auto; padding: 16px 40px; }
@@ -203,7 +246,6 @@
 </head>
 <body>
 
-  <!-- 35 bolinhas fixas no fundo -->
   <div class="background-dots">
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
     <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -231,6 +273,8 @@
     <div class="panel-content">
       <h1>Códigos Tiger Hub</h1>
       <div id="codes-list"></div>
+
+      <button class="add-new-btn" onclick="addNewBox()">+</button>
     </div>
   </div>
 
@@ -264,7 +308,7 @@
 
     function renderBoxes() {
       codesList.innerHTML = "";
-      boxes.forEach((box) => {
+      boxes.forEach((box, index) => {
         const item = document.createElement("div");
         item.className = "code-item";
         item.innerHTML = `
@@ -273,11 +317,19 @@
               <span class="code-label">CAIXA</span>
               <span class="code-name">${box.name}</span>
             </div>
+            <button class="rename-btn">+</button> <!-- Botão + mantido visualmente -->
           </div>
           <pre class="code-preview"><code>${limitPreview(box.code)}</code></pre>
         `;
         codesList.appendChild(item);
       });
+    }
+
+    function addNewBox() {
+      const nextNumber = boxes.length + 1;
+      boxes.push({ name: `Caixa ${nextNumber}`, code: "" });
+      localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
+      renderBoxes();
     }
 
     function checkKey() {
