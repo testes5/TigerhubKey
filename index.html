@@ -29,7 +29,6 @@
       opacity: 0.7;
     }
 
-    /* 35 bolinhas fixas */
     .dot:nth-child(1)  { width:8px;  height:8px;  left:4%;   top:8%;  }
     .dot:nth-child(2)  { width:12px; height:12px; left:15%;  top:22%; }
     .dot:nth-child(3)  { width:6px;  height:6px;  left:28%;  top:12%; }
@@ -234,6 +233,73 @@
       box-shadow: 0 15px 40px rgba(0,255,157,0.7);
     }
 
+    /* Modal de edição (restaurado) */
+    #edit-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    #edit-modal.show { opacity: 1; pointer-events: all; }
+
+    .modal-content {
+      background: linear-gradient(135deg, #1c0038, #320066);
+      border: 3px solid #c71585;
+      border-radius: 20px;
+      padding: 40px;
+      width: 92%;
+      max-width: 1200px;
+      height: 90vh;
+      max-height: 95vh;
+      overflow-y: auto;
+      box-shadow: 0 0 70px rgba(199,21,133,0.8);
+      transform: scale(0.8);
+      transition: transform 0.5s ease-out;
+    }
+    #edit-modal.show .modal-content { transform: scale(1); }
+
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+    .modal-header h2 { font-size: 2.4rem; }
+
+    .name-input, textarea.code-editor {
+      background: #0f001a;
+      border: 2px solid #a020f0;
+      border-radius: 12px;
+      padding: 16px 22px;
+      margin-bottom: 25px;
+      width: 100%;
+      font-size: 1.35rem;
+      color: #e0e0ff;
+      font-family: inherit;
+    }
+    textarea.code-editor {
+      height: 55vh;
+      font-family: 'Courier New', monospace;
+      color: #d0ffd0;
+      resize: vertical;
+    }
+
+    .modal-buttons { display: flex; gap: 25px; justify-content: center; }
+    .save-btn, .close-btn {
+      padding: 16px 90px;
+      font-size: 1.4rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .save-btn { background: linear-gradient(90deg, #8a2be2, #c71585); color: white; }
+    .save-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(199,21,133,0.6); }
+    .close-btn { background: #555; color: white; }
+    .close-btn:hover { background: #777; }
+
     @media (max-width: 600px) {
       .panel-content { padding: 24px 16px; border-radius: 0; }
       .add-new-btn { bottom: 16px; right: 16px; width: 64px; height: 64px; font-size: 2.5rem; }
@@ -278,8 +344,25 @@
     </div>
   </div>
 
+  <!-- Modal de edição RESTAURADO -->
+  <div id="edit-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Editar Código</h2>
+        <button class="close-btn" onclick="closeEditModal()">X</button>
+      </div>
+      <input type="text" class="name-input" id="edit-name" placeholder="Nome da caixa">
+      <textarea class="code-editor" id="edit-code" placeholder="Cole ou escreva seu código aqui..."></textarea>
+      <div class="modal-buttons">
+        <button class="save-btn" onclick="saveCode()">SALVAR</button>
+        <button class="close-btn" onclick="closeEditModal()">CANCELAR</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const correctKey = "ADMSGGSapenasTIGERX";
+    let currentEditIndex = -1;
 
     let boxes = JSON.parse(localStorage.getItem('tigerHubBoxes')) || [];
 
@@ -291,6 +374,10 @@
     }
 
     const codesList = document.getElementById("codes-list");
+    const editModal = document.getElementById("edit-modal");
+    const editName = document.getElementById("edit-name");
+    const editCode = document.getElementById("edit-code");
+    const modalTitle = document.getElementById("modal-title");
 
     function limitPreview(code) {
       if (!code) return '// Nenhum código salvo ainda...';
@@ -317,7 +404,7 @@
               <span class="code-label">CAIXA</span>
               <span class="code-name">${box.name}</span>
             </div>
-            <button class="rename-btn">+</button> <!-- Botão + mantido visualmente -->
+            <button class="rename-btn" onclick="openEditModal(${index})">+</button>
           </div>
           <pre class="code-preview"><code>${limitPreview(box.code)}</code></pre>
         `;
@@ -330,6 +417,30 @@
       boxes.push({ name: `Caixa ${nextNumber}`, code: "" });
       localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
       renderBoxes();
+    }
+
+    function openEditModal(index) {
+      currentEditIndex = index;
+      const box = boxes[index];
+      modalTitle.textContent = `Editar: ${box.name}`;
+      editName.value = box.name;
+      editCode.value = box.code || "";
+      editModal.classList.add("show");
+    }
+
+    function saveCode() {
+      if (currentEditIndex !== -1) {
+        boxes[currentEditIndex].name = editName.value.trim() || `Caixa ${currentEditIndex + 1}`;
+        boxes[currentEditIndex].code = editCode.value;
+        localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
+        renderBoxes();
+      }
+      closeEditModal();
+    }
+
+    function closeEditModal() {
+      editModal.classList.remove("show");
+      currentEditIndex = -1;
     }
 
     function checkKey() {
@@ -350,6 +461,10 @@
         msg.textContent = "Key INVALIDA!";
       }
     }
+
+    editModal.addEventListener("click", e => {
+      if (e.target === editModal) closeEditModal();
+    });
   </script>
 </body>
 </html>
