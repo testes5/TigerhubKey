@@ -15,7 +15,6 @@
       position: relative;
     }
 
-    /* Bolinhas fixas */
     .background-dots { position:fixed; inset:0; pointer-events:none; z-index:1; }
     .dot {
       position:absolute; background:#a020f0; border-radius:50%;
@@ -57,13 +56,13 @@
     .panel-content {
       background:linear-gradient(135deg, #1a0033, #2a004d);
       border:2px solid #a020f0; border-radius:18px;
-      padding:50px 60px; width:580px; max-width:96%; text-align:center;
+      padding:40px 50px; width:680px; max-width:96%; text-align:center;
       box-shadow:0 0 50px rgba(160,32,240,0.6);
       overflow-y: auto;
-      max-height: 85vh;
+      max-height: 88vh;
     }
 
-    h1 { font-size:2.5rem; margin-bottom:40px; color:#d8bfd8; text-shadow:0 0 18px #c71585; }
+    h1 { font-size:2.6rem; margin-bottom:35px; color:#d8bfd8; text-shadow:0 0 18px #c71585; }
 
     .input-box {
       background:#0f001a; border:1.5px solid #9932cc; border-radius:12px;
@@ -84,53 +83,46 @@
     .success { color:#00ff9d; text-shadow:0 0 12px #00ff9d; }
     .error { color:#ff4d4d; text-shadow:0 0 12px #ff4d4d; }
 
-    /* CAIXAS - nome completo sem corte */
+    /* CAIXAS - com preview do código visível */
     .code-item {
-      background:rgba(40,0,80,0.75);
+      background:rgba(30,0,60,0.8);
       border:2px solid #9932cc;
       border-radius:18px;
-      padding:22px 30px;
-      margin:22px 0;
+      padding:24px 28px;
+      margin:24px 0;
+      transition:all 0.3s;
+      text-align: left;
+    }
+    .code-item:hover {
+      background:rgba(50,0,90,0.95);
+      transform: translateY(-5px);
+      box-shadow:0 15px 40px rgba(160,32,240,0.45);
+    }
+
+    .code-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size:1.65rem;
-      font-weight:600;
-      transition:all 0.3s;
-      min-height: 90px;
-      gap: 20px;
-      flex-wrap: wrap; /* permite quebra se muito longo */
-    }
-    .code-item:hover {
-      background:rgba(60,0,100,0.95);
-      transform: translateY(-4px);
-      box-shadow:0 12px 35px rgba(160,32,240,0.5);
+      margin-bottom: 16px;
+      font-size: 1.7rem;
+      font-weight: 600;
     }
 
-    .code-text {
+    .code-title {
       flex: 1;
-      text-align: left;
-      word-break: break-word; /* quebra linha se necessário */
-      white-space: normal; /* sem corte automático */
+      word-break: break-word;
     }
 
-    .code-label {
-      color: #d8bfd8;
-    }
-
-    .code-name {
-      color: #c71585;
-      margin-left: 12px;
-    }
+    .code-label { color: #d8bfd8; }
+    .code-name { color: #c71585; margin-left: 10px; }
 
     .rename-btn {
       background: #8a2be2;
       border: none;
       color: white;
-      font-size: 2.3rem;
-      font-weight: bold;
-      width: 64px;
-      height: 64px;
+      font-size: 2.1rem;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
@@ -145,7 +137,23 @@
       transform: scale(1.15);
     }
 
-    /* Modal ENORME (igual) */
+    .code-preview {
+      background: #0a0015;
+      border: 1px solid #552266;
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 1.05rem;
+      color: #d0ffd0;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 220px;
+      overflow-y: auto;
+      line-height: 1.45;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.7);
+    }
+
+    /* Modal ENORME (editar) */
     #edit-modal {
       position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(10px);
       display:flex; align-items:center; justify-content:center; z-index:20;
@@ -165,26 +173,25 @@
     .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; }
     .modal-header h2 { font-size:2.4rem; }
 
-    .name-input {
+    .name-input, textarea.code-editor {
       background:#0f001a; border:2px solid #a020f0; border-radius:12px;
-      padding:14px 20px; margin-bottom:30px; width:100%; font-size:1.4rem;
-      color:#e0e0ff; text-align:center;
+      padding:16px 22px; margin-bottom:25px; width:100%; font-size:1.35rem;
+      color:#e0e0ff; font-family: inherit;
     }
-
     textarea.code-editor {
-      background:#0a0015; border:2px solid #9932cc; border-radius:14px;
-      padding:20px; width:100%; height:60vh; min-height:400px;
-      font-size:1.1rem; font-family:'Courier New', monospace; color:#e0ffe0;
-      resize:vertical; outline:none; box-shadow:inset 0 0 15px rgba(0,0,0,0.6);
+      height: 55vh;
+      font-family: 'Courier New', monospace;
+      color: #d0ffd0;
+      resize: vertical;
     }
 
-    .modal-buttons { margin-top:30px; display:flex; gap:20px; justify-content:center; }
+    .modal-buttons { display:flex; gap:25px; justify-content:center; }
     .save-btn, .close-btn {
-      padding:16px 80px; font-size:1.4rem; border:none; border-radius:50px;
+      padding:16px 90px; font-size:1.4rem; border:none; border-radius:50px;
       cursor:pointer; transition:all 0.3s;
     }
     .save-btn { background:linear-gradient(90deg, #8a2be2, #c71585); color:white; }
-    .save-btn:hover { transform:translateY(-3px); box-shadow:0 10px 25px rgba(199,21,133,0.6); }
+    .save-btn:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(199,21,133,0.6); }
     .close-btn { background:#555; color:white; }
     .close-btn:hover { background:#777; }
   </style>
@@ -255,20 +262,32 @@
         const item = document.createElement("div");
         item.className = "code-item";
         item.innerHTML = `
-          <div class="code-text">
-            <span class="code-label">CAIXA</span>
-            <span class="code-name">${box.name}</span>
+          <div class="code-header">
+            <div class="code-title">
+              <span class="code-label">CAIXA</span>
+              <span class="code-name">${box.name}</span>
+            </div>
+            <button class="rename-btn" onclick="openEditModal(${index})">+</button>
           </div>
-          <button class="rename-btn" onclick="openEditModal(${index})">+</button>
+          <pre class="code-preview"><code>${escapeHtml(box.code || '// Nenhum código salvo ainda...')}</code></pre>
         `;
         codesList.appendChild(item);
       });
     }
 
+    function escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     function openEditModal(index) {
       currentEditIndex = index;
       const box = boxes[index];
-      modalTitle.textContent = `Editar Código: ${box.name}`;
+      modalTitle.textContent = `Editar: ${box.name}`;
       editName.value = box.name;
       editCode.value = box.code || "";
       editModal.classList.add("show");
