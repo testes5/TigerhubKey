@@ -29,6 +29,7 @@
       opacity: 0.7;
     }
 
+    /* (suas 35 bolinhas aqui – mantive igual) */
     .dot:nth-child(1)  { width:8px;  height:8px;  left:4%;   top:8%;  }
     .dot:nth-child(2)  { width:12px; height:12px; left:15%;  top:22%; }
     .dot:nth-child(3)  { width:6px;  height:6px;  left:28%;  top:12%; }
@@ -321,10 +322,6 @@
       .logo { width: 120px; height: 120px; }
     }
   </style>
-
-  <!-- Firebase SDK compat -->
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -378,25 +375,17 @@
   </div>
 
   <script>
-    // Firebase Config (o seu mesmo)
-    const firebaseConfig = {
-      apiKey: "AIzaSyCteX-sc622iC5WKYcmkyXRShHTH7zaKXM",
-      authDomain: "tigerhubkey.firebaseapp.com",
-      databaseURL: "https://tigerhubkey-default-rtdb.firebaseio.com",
-      projectId: "tigerhubkey",
-      storageBucket: "tigerhubkey.appspot.com",
-      messagingSenderId: "470547454908",
-      appId: "1:470547454908:web:a4ba38e08c982fbc84a9b9",
-      measurementId: "G-X55NVJ2QCC"
-    };
-
-    // Inicializa Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    const correctKey = "OadmeapenasEu"; // <--- NOVA KEY AQUI!
+    const correctKey = "OadmeapenasEu";
     let currentEditIndex = -1;
-    let boxes = [];
+
+    let boxes = JSON.parse(localStorage.getItem('tigerHubBoxes')) || [];
+
+    if (boxes.length === 0) {
+      for (let i = 1; i <= 4; i++) {
+        boxes.push({ name: `Caixa ${i}`, code: "" });
+      }
+      localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
+    }
 
     const codesList = document.getElementById("codes-list");
     const editModal = document.getElementById("edit-modal");
@@ -404,16 +393,8 @@
     const editCode = document.getElementById("edit-code");
     const modalTitle = document.getElementById("modal-title");
 
-    // Carrega e atualiza em tempo real do Firebase
-    db.ref('boxes').on('value', (snapshot) => {
-      boxes = snapshot.val() || [];
-      renderBoxes();
-    }, (error) => {
-      console.error("Erro ao carregar do Firebase:", error);
-    });
-
     function limitPreview(code) {
-      if (!code) return '// Nenhum código salvo ainda...';
+      if (!code || code.trim() === '') return '// Nenhum código salvo ainda...';
       const lines = code.split('\n');
       const maxLines = 10;
       if (lines.length <= maxLines) return escapeHtml(code);
@@ -439,7 +420,7 @@
             </div>
             <button class="rename-btn" onclick="openEditModal(${index})">+</button>
           </div>
-          <pre class="code-preview"><code>${limitPreview(box.code || '')}</code></pre>
+          <pre class="code-preview"><code>${limitPreview(box.code)}</code></pre>
         `;
         codesList.appendChild(item);
       });
@@ -448,27 +429,30 @@
     function addNewBox() {
       const nextNumber = boxes.length + 1;
       boxes.push({ name: `Caixa ${nextNumber}`, code: "" });
-      db.ref('boxes').set(boxes)
-        .then(() => console.log("Caixa criada e salva na nuvem!"))
-        .catch((error) => console.error("Erro ao salvar nova caixa:", error));
+      localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
+      renderBoxes();
     }
 
     function openEditModal(index) {
       currentEditIndex = index;
-      const box = boxes[index] || { name: '', code: '' };
-      modalTitle.textContent = `Editar: ${box.name}`;
-      editName.value = box.name;
-      editCode.value = box.code || "";
+      const box = boxes[index];
+      modalTitle.textContent = `Editar: ${box.name || 'Sem Nome'}`;
+      editName.value = box.name || '';
+      editCode.value = box.code || '';
       editModal.classList.add("show");
     }
 
     function saveCode() {
       if (currentEditIndex !== -1) {
+        // Atualiza o nome e o código no array
         boxes[currentEditIndex].name = editName.value.trim() || `Caixa ${currentEditIndex + 1}`;
-        boxes[currentEditIndex].code = editCode.value;
-        db.ref('boxes').set(boxes)
-          .then(() => console.log("Alterações salvas na nuvem!"))
-          .catch((error) => console.error("Erro ao salvar alterações:", error));
+        boxes[currentEditIndex].code = editCode.value.trim(); // trim pra remover espaços extras
+
+        // Salva no localStorage
+        localStorage.setItem('tigerHubBoxes', JSON.stringify(boxes));
+
+        // Atualiza a tela imediatamente
+        renderBoxes();
       }
       closeEditModal();
     }
@@ -489,6 +473,7 @@
         document.getElementById("login-panel").classList.add("hidden");
         setTimeout(() => {
           document.getElementById("main-panel").classList.remove("hidden");
+          renderBoxes();
         }, 800);
       } else {
         msg.className = "error";
@@ -499,6 +484,9 @@
     editModal.addEventListener("click", e => {
       if (e.target === editModal) closeEditModal();
     });
+
+    // Carrega ao abrir
+    renderBoxes();
   </script>
 </body>
 </html>
