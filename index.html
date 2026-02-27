@@ -394,7 +394,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    const correctKey = "OadmeapenasEu";
+    const correctKey = "OadmeapenasEu"; // <--- NOVA KEY AQUI!
     let currentEditIndex = -1;
     let boxes = [];
 
@@ -404,7 +404,7 @@
     const editCode = document.getElementById("edit-code");
     const modalTitle = document.getElementById("modal-title");
 
-    // Carrega dados do Firebase em tempo real
+    // Carrega e atualiza em tempo real do Firebase
     db.ref('boxes').on('value', (snapshot) => {
       boxes = snapshot.val() || [];
       renderBoxes();
