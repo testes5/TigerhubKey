@@ -322,7 +322,7 @@
     }
   </style>
 
-  <!-- Firebase SDK compat (essencial para funcionar sem module) -->
+  <!-- Firebase SDK compat (funciona sem precisar de type="module") -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 </head>
@@ -378,7 +378,7 @@
   </div>
 
   <script>
-    // === SUAS CREDENCIAIS DO FIREBASE ===
+    // Firebase Config (o seu mesmo que você mandou)
     const firebaseConfig = {
       apiKey: "AIzaSyCteX-sc622iC5WKYcmkyXRShHTH7zaKXM",
       authDomain: "tigerhubkey.firebaseapp.com",
@@ -386,7 +386,8 @@
       projectId: "tigerhubkey",
       storageBucket: "tigerhubkey.appspot.com",
       messagingSenderId: "470547454908",
-      appId: "1:470547454908:web:a4ba38e08c982fbc84a9b9"
+      appId: "1:470547454908:web:a4ba38e08c982fbc84a9b9",
+      measurementId: "G-X55NVJ2QCC"
     };
 
     // Inicializa Firebase
@@ -403,7 +404,7 @@
     const editCode = document.getElementById("edit-code");
     const modalTitle = document.getElementById("modal-title");
 
-    // Carrega dados do Firebase em tempo real
+    // Carrega e atualiza em tempo real do Firebase
     db.ref('boxes').on('value', (snapshot) => {
       boxes = snapshot.val() || [];
       renderBoxes();
@@ -445,7 +446,7 @@
     function addNewBox() {
       const nextNumber = boxes.length + 1;
       boxes.push({ name: `Caixa ${nextNumber}`, code: "" });
-      db.ref('boxes').set(boxes); // Salva na nuvem
+      db.ref('boxes').set(boxes);
     }
 
     function openEditModal(index) {
@@ -461,7 +462,7 @@
       if (currentEditIndex !== -1) {
         boxes[currentEditIndex].name = editName.value.trim() || `Caixa ${currentEditIndex + 1}`;
         boxes[currentEditIndex].code = editCode.value;
-        db.ref('boxes').set(boxes); // Salva na nuvem
+        db.ref('boxes').set(boxes);
       }
       closeEditModal();
     }
