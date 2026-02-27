@@ -310,6 +310,16 @@
     .save-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(199,21,133,0.6); }
     .close-btn { background: #555; color: white; }
     .close-btn:hover { background: #777; }
+
+    @media (max-width: 600px) {
+      .panel-content { padding: 24px 16px; border-radius: 0; }
+      .add-new-btn { bottom: 16px; right: 16px; width: 64px; height: 64px; font-size: 2.5rem; }
+      .login-form { flex-direction: row; flex-wrap: nowrap; gap: 12px; }
+      .input-box { flex: 1; }
+      button.main-btn { flex: 0 0 auto; padding: 16px 40px; }
+      #login-message { text-align: center; margin-top: 16px; }
+      .logo { width: 120px; height: 120px; }
+    }
   </style>
 
   <!-- Firebase SDK compat (essencial para funcionar sem module) -->
@@ -368,7 +378,7 @@
   </div>
 
   <script>
-    // === SUAS CREDENCIAIS DO FIREBASE (cole aqui o que você pegou do Firebase) ===
+    // === SUAS CREDENCIAIS DO FIREBASE ===
     const firebaseConfig = {
       apiKey: "AIzaSyCteX-sc622iC5WKYcmkyXRShHTH7zaKXM",
       authDomain: "tigerhubkey.firebaseapp.com",
@@ -435,7 +445,7 @@
     function addNewBox() {
       const nextNumber = boxes.length + 1;
       boxes.push({ name: `Caixa ${nextNumber}`, code: "" });
-      db.ref('boxes').set(boxes);
+      db.ref('boxes').set(boxes); // Salva na nuvem
     }
 
     function openEditModal(index) {
@@ -451,7 +461,7 @@
       if (currentEditIndex !== -1) {
         boxes[currentEditIndex].name = editName.value.trim() || `Caixa ${currentEditIndex + 1}`;
         boxes[currentEditIndex].code = editCode.value;
-        db.ref('boxes').set(boxes);
+        db.ref('boxes').set(boxes); // Salva na nuvem
       }
       closeEditModal();
     }
