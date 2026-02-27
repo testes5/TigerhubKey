@@ -378,7 +378,7 @@
   </div>
 
   <script>
-    // Firebase Config (seu mesmo)
+    // Firebase Config (o seu mesmo)
     const firebaseConfig = {
       apiKey: "AIzaSyCteX-sc622iC5WKYcmkyXRShHTH7zaKXM",
       authDomain: "tigerhubkey.firebaseapp.com",
@@ -394,7 +394,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    const correctKey = "OadmeapenasEu"; // Nova key
+    const correctKey = "OadmeapenasEu"; // <--- NOVA KEY AQUI!
     let currentEditIndex = -1;
     let boxes = [];
 
@@ -449,12 +449,8 @@
       const nextNumber = boxes.length + 1;
       boxes.push({ name: `Caixa ${nextNumber}`, code: "" });
       db.ref('boxes').set(boxes)
-        .then(() => {
-          console.log("Caixa criada e salva na nuvem!");
-        })
-        .catch((error) => {
-          console.error("Erro ao salvar nova caixa:", error.message);
-        });
+        .then(() => console.log("Caixa criada e salva na nuvem!"))
+        .catch((error) => console.error("Erro ao salvar nova caixa:", error));
     }
 
     function openEditModal(index) {
@@ -471,12 +467,8 @@
         boxes[currentEditIndex].name = editName.value.trim() || `Caixa ${currentEditIndex + 1}`;
         boxes[currentEditIndex].code = editCode.value;
         db.ref('boxes').set(boxes)
-          .then(() => {
-            console.log("Alterações salvas na nuvem!");
-          })
-          .catch((error) => {
-            console.error("Erro ao salvar alterações:", error.message);
-          });
+          .then(() => console.log("Alterações salvas na nuvem!"))
+          .catch((error) => console.error("Erro ao salvar alterações:", error));
       }
       closeEditModal();
     }
